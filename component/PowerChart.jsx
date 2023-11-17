@@ -11,7 +11,7 @@ export default function PowerChart() {
           height: "100%",
           maxWidth: "100%",
           type: "area",
-          fontFamily: "Inter, sans-serif",
+          fontFamily: "Yekan, sans-serif",
           dropShadow: {
             enabled: false,
           },
@@ -51,7 +51,7 @@ export default function PowerChart() {
         },
         series: [
           {
-            name: " Power",
+            name: "مصرف",
             data: [6500, 6418, 6456, 6526, 6356, 6456],
             color: "#1A56DB",
           },
@@ -130,7 +130,7 @@ export default function PowerChart() {
           {/* Button */}
           <button
             id="dropdownDefaultButton"
-            data-dropdown-toggle="lastDaysdropdown"
+            data-dropdown-toggle="lastDaysdropdownLine"
             data-dropdown-placement="bottom"
             className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
             type="button"
@@ -154,7 +154,7 @@ export default function PowerChart() {
           </button>
           {/* Dropdown menu */}
           <div
-            id="lastDaysdropdown"
+            id="lastDaysdropdownLine"
             className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
           >
             <ul

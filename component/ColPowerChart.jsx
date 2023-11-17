@@ -10,36 +10,36 @@ export default function ColPowerChart() {
         colors: ["#1A56DB", "#FDBA8C"],
         series: [
           {
-            name: "Organic",
+            name: "بیشترین مصرف",
             color: "#1A56DB",
             data: [
-              { x: "Mon", y: 231 },
-              { x: "Tue", y: 122 },
-              { x: "Wed", y: 63 },
-              { x: "Thu", y: 421 },
-              { x: "Fri", y: 122 },
-              { x: "Sat", y: 323 },
-              { x: "Sun", y: 111 },
+              { x: "شنبه", y: 231 },
+              { x: "یکشنبه", y: 122 },
+              { x: "دوشنبه", y: 63 },
+              { x: "سه‌شنبه", y: 421 },
+              { x: "چهارشنبه", y: 122 },
+              { x: "پنجشنبه", y: 323 },
+              { x: "جمعه", y: 111 },
             ],
           },
           {
-            name: "Social media",
+            name: "کمترین مصرف",
             color: "#FDBA8C",
             data: [
-              { x: "Mon", y: 232 },
-              { x: "Tue", y: 113 },
-              { x: "Wed", y: 341 },
-              { x: "Thu", y: 224 },
-              { x: "Fri", y: 522 },
-              { x: "Sat", y: 411 },
-              { x: "Sun", y: 243 },
+              { x: "شنبه", y: 232 },
+              { x: "یکشنبه", y: 113 },
+              { x: "دوشنبه", y: 341 },
+              { x: "سه‌شنبه", y: 224 },
+              { x: "چهارشنبه", y: 522 },
+              { x: "پنجشنبه", y: 411 },
+              { x: "جمعه", y: 243 },
             ],
           },
         ],
         chart: {
           type: "bar",
           height: "320px",
-          fontFamily: "Inter, sans-serif",
+          fontFamily: "Yekan, sans-serif",
           toolbar: {
             show: false,
           },
@@ -56,7 +56,7 @@ export default function ColPowerChart() {
           shared: true,
           intersect: false,
           style: {
-            fontFamily: "Inter, sans-serif",
+            fontFamily: "Yekan, sans-serif",
           },
         },
         states: {
@@ -92,8 +92,8 @@ export default function ColPowerChart() {
           labels: {
             show: true,
             style: {
-              fontFamily: "Inter, sans-serif",
-              cssClass: "text-xs font-normal fill-gray-500 dark:fill-gray-400",
+              fontFamily: "Yekan, sans-serif",
+              fill: "#627bff",
             },
           },
           axisBorder: {
@@ -128,12 +128,12 @@ export default function ColPowerChart() {
     <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-4">
       <div className="flex justify-between">
         <div>
-          <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
+          <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white py-3 font-bold">
             مصرف چند روز اخیر
           </h5>
-          {/* <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-            مصرف لحظه‌ای
-          </p> */}
+          <p className="text-base font-normal text-gray-500 dark:text-gray-400">
+            بیشترین و کمترین میزان مصرف هر روز
+          </p>
         </div>
         {/* <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
           ۱۲٪

@@ -68,7 +68,7 @@ export default function Dashboard() {
             >
               <img
                 src="https://flowbite.s3.amazonaws.com/logo.svg"
-                className="ml-3 h-8"
+                className="ml-3 sm:h-8 h-6 mr-2"
                 alt="Flowbite Logo"
               />
               <span className="self-center sm:text-2xl text-lg font-extrabold whitespace-nowrap dark:text-white">
@@ -84,7 +84,7 @@ export default function Dashboard() {
               className="hidden sm:block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
             >
               <svg
-                className="w-5 h-5 dark:block hidden"
+                className="w-5 h-5 dark:hidden block"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -102,7 +102,7 @@ export default function Dashboard() {
                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
               </svg>
               <svg
-                className="w-5 h-5 dark:hidden block"
+                className="w-5 h-5 dark:block hidden"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -637,7 +637,7 @@ export default function Dashboard() {
             </li>
           </ul>
         </div>
-        <div className="absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full flex bg-white dark:bg-gray-800 z-20">
+        <div className="absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full flex bg-white dark:bg-gray-800 z-20 pb-10">
           {/* <a
             href="#"
             className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
@@ -659,7 +659,7 @@ export default function Dashboard() {
             className="block sm:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
           >
             <svg
-              className="w-5 h-5 dark:block hidden"
+              className="w-5 h-5 dark:hidden block"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -677,7 +677,7 @@ export default function Dashboard() {
               <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
             </svg>
             <svg
-              className="w-5 h-5 dark:hidden block"
+              className="w-5 h-5 dark:block hidden"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"

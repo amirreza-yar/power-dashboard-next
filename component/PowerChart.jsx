@@ -98,7 +98,7 @@ export default function PowerChart() {
     <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
       <div className="flex justify-between">
         <div>
-          <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
+          <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
             ۴۳۶w
           </h5>
           <p className="text-base font-normal text-gray-500 dark:text-gray-400">
@@ -125,7 +125,7 @@ export default function PowerChart() {
         </div>
       </div>
       <div id="area-chart" dir="ltr"/>
-      <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
+      <div className="items-center border-gray-200 border-t dark:border-gray-700 justify-between">
         <div className="flex justify-between items-center pt-5">
           {/* Button */}
           <button
@@ -137,7 +137,7 @@ export default function PowerChart() {
           >
             مصرف امروز
             <svg
-              className="w-2.5 m-2.5 ms-1.5"
+              className="w-3 m-3 mr-1"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -205,11 +205,11 @@ export default function PowerChart() {
           </div>
           <a
             href="#"
-            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
+            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
           >
             دریافت گزارش
             <svg
-              className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
+              className="w-3 h-3 mr-2 rotate-180"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

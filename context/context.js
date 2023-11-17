@@ -7,7 +7,7 @@ export function useDarkMode() {
 }
 
 export function DarkModeProvider({ children }) {
-    const [DarkMode, setDarkMode] = useState(false);
+    const [DarkMode, setDarkMode] = useState(true);
 
     return (
         <DarkModeContext.Provider value={{ DarkMode, setDarkMode }}>

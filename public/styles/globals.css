@@ -1,0 +1,63 @@
+/* @import url("https://fonts.cdnfonts.com/css/iranyekan"); */
+/* @import url('https://v1.fontapi.ir/css/Yekan'); */
+
+@font-face {
+  font-family: iranyekan;
+  font-style: normal;
+  font-weight: 400;
+  src: local("IRANYekan"),
+    url("./fonts/Qs_Iranyekan.woff") format("woff");
+}
+@font-face {
+  font-family: iranyekan;
+  font-style: thin;
+  font-weight: 100;
+  src: local("IRANYekan"),
+    url("./fonts/Qs_Iranyekan\ thin.woff") format("woff");
+}
+@font-face {
+  font-family: iranyekan;
+  font-style: light;
+  font-weight: 300;
+  src: local("IRANYekan"),
+    url("./fonts/Qs_Iranyekan\ light.woff") format("woff");
+}
+@font-face {
+  font-family: iranyekan;
+  font-style: medium;
+  font-weight: 500;
+  src: local("IRANYekan"),
+    url("./fonts/Qs_Iranyekan\ medium.woff") format("woff");
+}
+@font-face {
+  font-family: iranyekan;
+  font-style: bold;
+  font-weight: 700;
+  src: local("IRANYekan"),
+    url("./fonts/Qs_Iranyekan\ bold.woff") format("woff");
+}
+@font-face {
+  font-family: iranyekan;
+  font-style: extrabold;
+  font-weight: 800;
+  src: local("IRANYekan"),
+    url("./fonts/Qs_Iranyekan\ extrabold.woff") format("woff");
+}
+@font-face {
+  font-family: iranyekan;
+  font-style: black;
+  font-weight: 900;
+  src: local("IRANYekan"),
+    url("./fonts/Qs_Iranyekan\ black.woff") format("woff");
+}
+@font-face {
+  font-family: iranyekan;
+  font-style: extrablack;
+  font-weight: 950;
+  src: local("IRANYekan"),
+    url("./fonts/Qs_Iranyekan\ extrablack.woff") format("woff");
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

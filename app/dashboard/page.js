@@ -615,7 +615,7 @@ export default function Dashboard() {
             <li className="sm:hidden block">
               <a
                 onClick={DarkModeButton}
-                className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                className="cursor-pointer flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
               >
                 <svg
                   className="w-4 h-4 dark:hidden block text-gray-500 dark:text-gray-400"

@@ -10,7 +10,7 @@ export default function PowerChart() {
         height: "100%",
         maxWidth: "100%",
         type: "area",
-        fontFamily: "Inter, sans-serif",
+        fontFamily: "IRANYekan, sans-serif",
         dropShadow: {
           enabled: false,
         },
@@ -50,20 +50,20 @@ export default function PowerChart() {
       },
       series: [
         {
-          name: "New users",
+          name: "مصرف",
           data: [6500, 6418, 6456, 6526, 6356, 6456],
           color: "#1A56DB",
         },
       ],
       xaxis: {
         categories: [
-          "01 February",
-          "02 February",
-          "03 February",
-          "04 February",
-          "05 February",
-          "06 February",
-          "07 February",
+          "۱۲:۰۰",
+          "۱۳:۰۰",
+          "۱۴:۰۰",
+          "۱۵:۰۰",
+          "۱۶:۰۰",
+          "۱۷:۰۰",
+          "۱۸:۰۰",
         ],
         labels: {
           show: false,

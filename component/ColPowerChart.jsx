@@ -93,7 +93,7 @@ export default function ColPowerChart() {
             show: true,
             style: {
               fontFamily: "Yekan, sans-serif",
-              fill: "#627bff",
+              fill: "blue",
             },
           },
           axisBorder: {

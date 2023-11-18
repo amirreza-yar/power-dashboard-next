@@ -21,7 +21,7 @@ export default function PowerChart() {
       tooltip: {
         enabled: true,
         x: {
-          show: false,
+          show: true,
         },
       },
       fill: {
@@ -66,7 +66,11 @@ export default function PowerChart() {
           "۱۸:۰۰",
         ],
         labels: {
-          show: false,
+          show: true,
+          style: {
+            fontFamily: "Yekan, sans-serif",
+            fill: "#627bff",
+          },
         },
         axisBorder: {
           show: false,

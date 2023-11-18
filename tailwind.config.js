@@ -15,7 +15,7 @@ module.exports = {
       },
       fontFamily: {
         iranyekan: ['IRANYekan', 'sans-serif'],
-        yekan: ['Yekan', 'sans-serif'],
+        yekan: ['iranyekan', 'sans-serif'],
       },
     },
   },

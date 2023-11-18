@@ -39,7 +39,7 @@ export default function ColPowerChart() {
         chart: {
           type: "bar",
           height: "320px",
-          fontFamily: "Yekan, sans-serif",
+          fontFamily: "iranyekan, sans-serif",
           toolbar: {
             show: false,
           },
@@ -56,7 +56,7 @@ export default function ColPowerChart() {
           shared: true,
           intersect: false,
           style: {
-            fontFamily: "Yekan, sans-serif",
+            fontFamily: "iranyekan, sans-serif",
           },
         },
         states: {
@@ -92,8 +92,8 @@ export default function ColPowerChart() {
           labels: {
             show: true,
             style: {
-              fontFamily: "Yekan, sans-serif",
-              fill: "blue",
+              fontFamily: "iranyekan, sans-serif",
+              fill: "#627bff",
             },
           },
           axisBorder: {

@@ -10,7 +10,7 @@ export default function PowerChart() {
         height: "100%",
         maxWidth: "100%",
         type: "area",
-        fontFamily: "IRANYekan, sans-serif",
+        fontFamily: "iranyeka, sans-serif",
         dropShadow: {
           enabled: false,
         },
@@ -68,7 +68,7 @@ export default function PowerChart() {
         labels: {
           show: true,
           style: {
-            fontFamily: "Yekan, sans-serif",
+            fontFamily: "iranyekan, sans-serif",
             fill: "#627bff",
           },
         },

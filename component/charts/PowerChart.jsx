@@ -1,7 +1,6 @@
 "use client";
-import { SpinLoader } from "@component/Loaders";
-import { Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { Spinner } from "flowbite-react";
 
 export default function PowerChart() {
   const [loading, setLoading] = useState(true);
@@ -112,14 +111,15 @@ export default function PowerChart() {
   }, []);
 
   return (
-    <div>
-        {/* {loading && <div className="text-center mb-10 mt-10">
-          <div className="text-center mt-20">
-            <Spinner aria-label="Power chart loader" />
+    <>
+      {loading && (
+        <div className="text-center" style={{margin: "100px"}}>
+          <div className="text-center">
+            <Spinner aria-label="Power chart loader" size="xl" color="purple" />
           </div>
-        </div>} */}
-        {/* <div id="area-chart" dir="ltr" className={loading ? `hidden` : 'block'}/> */}
-        <div id="area-chart" dir="ltr" />
-    </div>
+        </div>
+      )}
+      <div id="area-chart" dir="ltr" />
+    </>
   );
 }

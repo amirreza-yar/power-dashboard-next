@@ -1,7 +1,9 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Spinner } from "flowbite-react";
 
 export default function ColPowerChart() {
+  const [loading, setLoading] = useState(true);
   let isChart = false;
   useEffect(() => {
     if (isChart) {
@@ -113,6 +115,7 @@ export default function ColPowerChart() {
 
       const loadApexCharts = () => {
         if (typeof ApexCharts !== "undefined") {
+          setLoading(false);
           const chart = new ApexCharts(
             document.getElementById("column-chart"),
             options
@@ -135,5 +138,16 @@ export default function ColPowerChart() {
     }
   }, []);
 
-  return <div id="column-chart" dir="ltr" />;
+  return (
+    <>
+      {loading && (
+        <div className="text-center" style={{ margin: "150px" }}>
+          <div className="text-center">
+            <Spinner aria-label="Power chart loader" size="xl" color="purple" />
+          </div>
+        </div>
+      )}
+      <div id="column-chart" dir="ltr" />
+    </>
+  );
 }

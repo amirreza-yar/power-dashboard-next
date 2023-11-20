@@ -784,7 +784,7 @@ export default function Dashboard() {
         <ChartLayout>
           <PowerChart />
         </ChartLayout>
-        <ChartLayout>
+        <ChartLayout className="mt-5">
           <ColPowerChart />
         </ChartLayout>
       </main>

@@ -1,7 +1,7 @@
 export default function ChartLayout({ children }) {
 
   return (
-    <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+    <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-4">
       <div className="flex justify-between">
         <div>
           <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">

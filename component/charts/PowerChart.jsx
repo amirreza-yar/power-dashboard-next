@@ -1,7 +1,10 @@
 "use client";
+import { SpinLoader } from "@component/Loaders";
+import { Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 
 export default function PowerChart() {
+  const [loading, setLoading] = useState(true);
   let isChart = false;
   useEffect(() => {
     // ApexCharts options and config
@@ -86,6 +89,7 @@ export default function PowerChart() {
 
     const loadApexCharts = () => {
       if (typeof ApexCharts !== "undefined") {
+        setLoading(false);
         const chart = new ApexCharts(
           document.getElementById("area-chart"),
           options
@@ -107,5 +111,15 @@ export default function PowerChart() {
     }
   }, []);
 
-  return <div id="area-chart" dir="ltr" />;
+  return (
+    <div>
+        {/* {loading && <div className="text-center mb-10 mt-10">
+          <div className="text-center mt-20">
+            <Spinner aria-label="Power chart loader" />
+          </div>
+        </div>} */}
+        {/* <div id="area-chart" dir="ltr" className={loading ? `hidden` : 'block'}/> */}
+        <div id="area-chart" dir="ltr" />
+    </div>
+  );
 }

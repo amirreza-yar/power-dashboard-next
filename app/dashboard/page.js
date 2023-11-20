@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useDarkMode } from "@context/context";
-import PowerChart from "@component/PowerChart";
+import PowerChart from "@component/charts/PowerChart";
 import MainDashboard from "@component/main";
-import ColPowerChart from "@component/ColPowerChart";
-// import { useDarkMode } from "@context/context";
+import ColPowerChart from "@component/charts/ColPowerChart";
+import ChartLayout from "@component/ChartLayout";
 
 export default function Dashboard() {
   const [drawer, setDrawer] = useState(false);
@@ -781,8 +781,12 @@ export default function Dashboard() {
         </div>
       </aside>
       <main className="p-4 md:mr-64 h-100 pt-20">
-        <PowerChart />
-        <ColPowerChart />
+        <ChartLayout>
+          <PowerChart />
+        </ChartLayout>
+        <ChartLayout>
+          <ColPowerChart />
+        </ChartLayout>
       </main>
 
       {/* <MainDashboard /> */}

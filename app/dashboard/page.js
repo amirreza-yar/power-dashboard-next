@@ -1,14 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDarkMode } from "@context/context";
 import PowerChart from "@component/charts/PowerChart";
 import ColPowerChart from "@component/charts/ColPowerChart";
 
 export default function Dashboard() {
   const [drawer, setDrawer] = useState(false);
-
   const { DarkMode, setDarkMode } = useDarkMode();
-
+  
   function DarkModeButton() {
     setDarkMode(!DarkMode);
     console.log(DarkMode);

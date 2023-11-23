@@ -10,19 +10,17 @@ export default function PowerChart() {
   // console.log(`BACK_URL is when pro is off: ${process.env.NEXT_PUBLIC_BACKEND_URL_DEV}`);
 
   const fetchData = async (dateFilter) => {
+    // console.log("fetchData is running!")
     try {
-      // let apiUrl = "http://rcpss-sutech.ir/django/power/";
-      let apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL + "power";
+      let apiUrl = "http://rcpss-sutech.ir/django/power/";
+      // let apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL + "power";
 
       // Append the date filter to the API URL
       if (dateFilter) {
         apiUrl += `?date=${dateFilter}`;
       }
 
-      const response = await fetch(apiUrl, {
-        credentials: "include",
-        cache: "force-cache",
-      });
+      const response = await fetch(apiUrl, { cache: "force-cache" });
       const data = await response.json();
 
       setPowerData(data);
@@ -43,8 +41,13 @@ export default function PowerChart() {
     return date.toLocaleTimeString("fa-IR", options);
   };
 
+  // useEffect(() => {
+  //   fetchData();
+  //   // console.log("useEffect is running!")
+  // }, [powerData, isChartCreated])
+  
   useEffect(() => {
-    fetchData();
+    if (!isChartCreated.current) {fetchData();}
     // ApexCharts options and config
     const loadApexCharts = (currentData, timeData) => {
       console.log(currentData);
@@ -136,7 +139,6 @@ export default function PowerChart() {
       if (typeof ApexCharts !== "undefined") {
         const currentData = powerData?.map((item) => item.current);
         const timeData = powerData?.map((item) => formatTime(item.datetime));
-
         loadApexCharts(currentData, timeData);
       } else {
         const currentData = powerData.map((item) => item.current);
@@ -151,6 +153,7 @@ export default function PowerChart() {
         document.head.appendChild(script);
       }
       isChartCreated.current = true;
+      // console.log(`isChartCreated: ${isChartCreated}`)
     }
   }, [powerData, isChartCreated]);
 

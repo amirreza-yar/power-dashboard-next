@@ -20,7 +20,7 @@ export default function PowerChart() {
         apiUrl += `?date=${dateFilter}`;
       }
 
-      const response = await fetch(apiUrl, { cache: "force-cache" });
+      const response = await fetch(apiUrl,);
       const data = await response.json();
 
       setPowerData(data);

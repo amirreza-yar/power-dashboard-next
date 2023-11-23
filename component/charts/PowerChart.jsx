@@ -7,18 +7,22 @@ export default function PowerChart() {
   const [powerData, setPowerData] = useState(null);
   const isChartCreated = useRef(false);
 
-  // console.log(`BACK_URL is: ${process.env.BACKEND_URL}`);
+  // console.log(`BACK_URL is when pro is off: ${process.env.NEXT_PUBLIC_BACKEND_URL_DEV}`);
 
   const fetchData = async (dateFilter) => {
     try {
-      let apiUrl = "http://localhost:8080/power/?date=today";
+      // let apiUrl = "http://rcpss-sutech.ir/django/power/";
+      let apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL + "power";
 
       // Append the date filter to the API URL
       if (dateFilter) {
         apiUrl += `?date=${dateFilter}`;
       }
 
-      const response = await fetch(apiUrl, { credentials: "include", cache: 'force-cache' });
+      const response = await fetch(apiUrl, {
+        credentials: "include",
+        cache: "force-cache",
+      });
       const data = await response.json();
 
       setPowerData(data);
@@ -152,7 +156,7 @@ export default function PowerChart() {
 
   return (
     <>
-      <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-4">
+      <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 ">
         <div className="flex justify-between">
           <div>
             <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">

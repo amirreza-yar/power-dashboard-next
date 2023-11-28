@@ -1,161 +1,56 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { Spinner } from "flowbite-react";
+import loadPowerChart from "./LoadPowerChart";
+import formatTime from "./FormatPersianTime";
+import translateDate from "./TranslateToPersian";
 
 export default function PowerChart() {
   const [loading, setLoading] = useState(true);
   const [powerData, setPowerData] = useState(null);
-  const isChartCreated = useRef(false);
+  const [chart, setChart] = useState(null);
+  const [chartDate, setChartDate] = useState("today");
 
-  // console.log(`BACK_URL is when pro is off: ${process.env.NEXT_PUBLIC_BACKEND_URL_DEV}`);
-
-  const fetchData = async (dateFilter) => {
-    // console.log("fetchData is running!")
+  const loadChart = async () => {
     try {
-      let apiUrl = "http://rcpss-sutech.ir/django/power/";
-      // let apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL + "power";
+      let apiUrl = "http://rcpss-sutech.ir/django/power/?date=" + chartDate;
+      console.log("fetch running!  " + apiUrl);
 
-      // Append the date filter to the API URL
-      if (dateFilter) {
-        apiUrl += `?date=${dateFilter}`;
-      }
-
-      const response = await fetch(apiUrl,);
+      const response = await fetch(apiUrl);
       const data = await response.json();
 
       setPowerData(data);
-      // setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // setIsLoading(false);
     }
   };
 
-  const formatTime = (datetimeString) => {
-    const date = new Date(datetimeString);
-    const options = {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: false, // Set to false for 24-hour format
-    };
-    return date.toLocaleTimeString("fa-IR", options);
-  };
-
-  // useEffect(() => {
-  //   fetchData();
-  //   // console.log("useEffect is running!")
-  // }, [powerData, isChartCreated])
-  
   useEffect(() => {
-    if (!isChartCreated.current) {fetchData();}
-    // ApexCharts options and config
-    const loadApexCharts = (currentData, timeData) => {
-      console.log(currentData);
-      const options = {
-        chart: {
-          height: "400px",
-          maxWidth: "100%",
-          type: "area",
-          fontFamily: "iranyekan, sans-serif",
-          dropShadow: {
-            enabled: false,
-          },
-          toolbar: {
-            show: false,
-          },
-        },
-        tooltip: {
-          enabled: true,
-          x: {
-            show: true,
-          },
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            opacityFrom: 0.55,
-            opacityTo: 0,
-            shade: "#1C64F2",
-            gradientToColors: ["#1C64F2"],
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          width: 6,
-        },
-        grid: {
-          show: false,
-          strokeDashArray: 4,
-          padding: {
-            left: 15,
-            right: 2,
-            top: 0,
-          },
-        },
+    if (chart === null) {
+      setChart(loadPowerChart([0], [0]));
+    }
+    if (chartDate !== null && powerData === null) {
+      loadChart();
+    }
+    if (powerData !== null && chart !== null) {
+      const currentData = powerData.map((item) => item.power);
+      const timeData = powerData.map((item) => formatTime(item.datetime));
+
+      setLoading(false);
+      chart.render();
+
+      chart.updateOptions({
         series: [
           {
-            name: "مصرف",
-            // data: [6500, 6418, 6456, 6526, 6356, 6456],
             data: currentData,
-            color: "#1A56DB",
           },
         ],
         xaxis: {
-          // categories: ["۱۲:۰۰", "۱۳:۰۰", "۱۴:۰۰", "۱۵:۰۰", "۱۶:۰۰", "۱۷:۰۰"],
           categories: timeData,
-          labels: {
-            show: true,
-            style: {
-              fontFamily: "iranyekan, sans-serif",
-              fill: "#627bff",
-            },
-          },
-          axisBorder: {
-            show: false,
-          },
-          axisTicks: {
-            show: false,
-          },
         },
-        yaxis: {
-          show: false,
-        },
-      };
-
-      if (typeof ApexCharts !== "undefined") {
-        setLoading(false);
-        const chart = new ApexCharts(
-          document.getElementById("area-chart"),
-          options
-        );
-        chart.render();
-      }
-    };
-
-    // Check if ApexCharts is already loaded
-    if (powerData !== null && !isChartCreated.current) {
-      if (typeof ApexCharts !== "undefined") {
-        const currentData = powerData?.map((item) => item.current);
-        const timeData = powerData?.map((item) => formatTime(item.datetime));
-        loadApexCharts(currentData, timeData);
-      } else {
-        const currentData = powerData.map((item) => item.current);
-        const timeData = powerData.map((item) => formatTime(item.datetime));
-
-        // If not loaded, wait for the script to load
-        const script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/npm/apexcharts";
-        script.async = true;
-        console.log("I'm runing!");
-        script.onload = loadApexCharts(currentData, timeData);
-        document.head.appendChild(script);
-      }
-      isChartCreated.current = true;
-      // console.log(`isChartCreated: ${isChartCreated}`)
+      });
     }
-  }, [powerData, isChartCreated]);
+  }, [powerData]);
 
   return (
     <>
@@ -166,7 +61,7 @@ export default function PowerChart() {
               ۴۳۶w
             </h5>
             <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-              مصرف لحظه‌ای
+              مصرف {translateDate(chartDate)}
             </p>
           </div>
           <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
@@ -190,7 +85,7 @@ export default function PowerChart() {
         </div>
 
         {/* Power chart here */}
-        {loading && (
+        {loading == true && (
           <div className="text-center" style={{ margin: "150px" }}>
             <div className="text-center">
               <Spinner
@@ -213,7 +108,7 @@ export default function PowerChart() {
               className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
               type="button"
             >
-              مصرف امروز
+              مصرف {translateDate(chartDate)}
               <svg
                 className="w-3 m-3 mr-1"
                 aria-hidden="true"
@@ -239,34 +134,46 @@ export default function PowerChart() {
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="LineDefaultButton"
               >
-                <li>
+                <li className={chartDate == "today" ? "hidden" : ""}>
                   <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    دیروز
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => {
+                      setChartDate("today");
+                      setPowerData(null);
+                      setLoading(2);
+                    }}
+                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     امروز
                   </a>
                 </li>
-                <li>
+                <li className={chartDate == "yesterday" ? "hidden" : ""}>
                   <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => {
+                      setChartDate("yesterday");
+                      setPowerData(null);
+                      setLoading(2);
+                    }}
+                    className="cursor-pointer block cursor-point px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    دیروز
+                  </a>
+                </li>
+                <li className={chartDate == "last7days" ? "hidden" : ""}>
+                  <a
+                    onClick={() => {
+                      setChartDate("last7days");
+                      setPowerData(null);
+                      setLoading(2);
+                    }}
+                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     ۷ روز اخیر
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a
                     href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     ۱ ماه اخیر
                   </a>
@@ -274,11 +181,11 @@ export default function PowerChart() {
                 <li>
                   <a
                     href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    className="cursor-pointerblock px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     ۳ ماه اخیر
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
             <a

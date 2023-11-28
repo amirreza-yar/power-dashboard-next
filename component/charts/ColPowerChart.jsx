@@ -1,153 +1,100 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Spinner } from "flowbite-react";
+import { loadColChart } from "./utils/LoadCharts";
+import { formatDate } from "./utils/FormatPersianTime";
+import translateDate from "./utils/TranslateToPersian";
 
-export default function ColPowerChart() {
+export default function PowerChart() {
   const [loading, setLoading] = useState(true);
-  let isChart = false;
+  const [columnData, setColumnData] = useState(null);
+  const [chart, setChart] = useState(null);
+  const [chartDate, setChartDate] = useState("last7days");
+
+  const loadChart = async () => {
+    try {
+      let apiUrl =
+        "http://rcpss-sutech.ir/django/min-max-power/?date=" + chartDate;
+      console.log("fetch running!  " + apiUrl);
+
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      setColumnData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    if (isChart) {
-    } else {
-      const options = {
-        colors: ["#1A56DB", "#FDBA8C"],
+    if (chart === null) {
+      setChart(loadColChart([0], [0]));
+    }
+    if (chartDate !== null && columnData === null) {
+      loadChart();
+    }
+    if (columnData !== null && chart !== null) {
+      // console.log(formatDate("2023-11-28"));
+      const timeData = columnData.map((item) => formatDate(item.date));
+      const minPowerDataRaw = columnData.map((item) => item.min_power);
+      const maxPowerDataRaw = columnData.map((item) => item.max_power);
+
+      const minPowerData = timeData.map((time, index) => ({
+        x: time,
+        y: minPowerDataRaw[index],
+      }));
+
+      const maxPowerData = timeData.map((time, index) => ({
+        x: time,
+        y: maxPowerDataRaw[index],
+      }));
+
+      console.log(minPowerData);
+      console.log(maxPowerData);
+
+      console.log(
+        `min_powers: ${minPowerData}, max_powers: ${maxPowerData}, dates: ${timeData}`
+      );
+      console.log(timeData);
+
+      setLoading(false);
+      chart.render();
+
+      chart.updateOptions({
         series: [
           {
             name: "بیشترین مصرف",
             color: "#1A56DB",
-            data: [
-              { x: "شنبه", y: 231 },
-              { x: "یکشنبه", y: 122 },
-              { x: "دوشنبه", y: 63 },
-              { x: "سه‌شنبه", y: 421 },
-              { x: "چهارشنبه", y: 122 },
-              { x: "پنجشنبه", y: 323 },
-              { x: "جمعه", y: 111 },
-            ],
+            data: maxPowerData,
           },
           {
             name: "کمترین مصرف",
             color: "#FDBA8C",
-            data: [
-              { x: "شنبه", y: 232 },
-              { x: "یکشنبه", y: 113 },
-              { x: "دوشنبه", y: 341 },
-              { x: "سه‌شنبه", y: 224 },
-              { x: "چهارشنبه", y: 522 },
-              { x: "پنجشنبه", y: 411 },
-              { x: "جمعه", y: 243 },
-            ],
+            data: minPowerData,
           },
         ],
-        chart: {
-          type: "bar",
-          height: "320px",
-          fontFamily: "iranyekan, sans-serif",
-          toolbar: {
-            show: false,
-          },
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: "70%",
-            borderRadiusApplication: "end",
-            borderRadius: 8,
-          },
-        },
-        tooltip: {
-          shared: true,
-          intersect: false,
-          style: {
-            fontFamily: "iranyekan, sans-serif",
-          },
-        },
-        states: {
-          hover: {
-            filter: {
-              type: "darken",
-              value: 1,
-            },
-          },
-        },
-        stroke: {
-          show: true,
-          width: 0,
-          colors: ["transparent"],
-        },
-        grid: {
-          show: false,
-          strokeDashArray: 4,
-          padding: {
-            left: 2,
-            right: 2,
-            top: -14,
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        legend: {
-          show: false,
-        },
-        xaxis: {
-          floating: false,
-          labels: {
-            show: true,
-            style: {
-              fontFamily: "iranyekan, sans-serif",
-              fill: "#627bff",
-            },
-          },
-          axisBorder: {
-            show: false,
-          },
-          axisTicks: {
-            show: false,
-          },
-        },
-        yaxis: {
-          show: false,
-        },
-        fill: {
-          opacity: 1,
-        },
-      };
-
-      const loadApexCharts = () => {
-        if (typeof ApexCharts !== "undefined") {
-          setLoading(false);
-          const chart = new ApexCharts(
-            document.getElementById("column-chart"),
-            options
-          );
-          chart.render();
-        }
-      };
-
-      // Check if ApexCharts is already loaded
-      if (typeof ApexCharts !== "undefined") {
-        loadApexCharts();
-      } else {
-        // If not loaded, wait for the script to load
-        const script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/npm/apexcharts";
-        script.async = true;
-        script.onload = loadApexCharts;
-        document.head.appendChild(script);
-      }
+      });
     }
-  }, []);
+  }, [columnData]);
 
   return (
     <>
-      <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-4">
+      <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 ">
         <div className="flex justify-between">
           <div>
             <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
               ۴۳۶w
             </h5>
             <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-              مصرف لحظه‌ای
+              مصرف {translateDate(chartDate)}
+              {loading == 2 && (
+                <Spinner
+                  className="mr-2"
+                  aria-label="Power chart loader"
+                  size="sm"
+                  color="purple"
+                />
+              )}
             </p>
           </div>
           <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
@@ -170,9 +117,8 @@ export default function ColPowerChart() {
           </div>
         </div>
 
-        
-        {/* Column chart here */}
-        {loading && (
+        {/* Power chart here */}
+        {loading == true && (
           <div className="text-center" style={{ margin: "150px" }}>
             <div className="text-center">
               <Spinner
@@ -183,9 +129,8 @@ export default function ColPowerChart() {
             </div>
           </div>
         )}
-
-
         <div id="column-chart" dir="ltr" />
+
         <div className="items-center border-gray-200 border-t dark:border-gray-700 justify-between">
           <div className="flex justify-between items-center pt-5">
             {/* Button */}
@@ -196,7 +141,7 @@ export default function ColPowerChart() {
               className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
               type="button"
             >
-              مصرف امروز
+              مصرف {translateDate(chartDate)}
               <svg
                 className="w-3 m-3 mr-1"
                 aria-hidden="true"
@@ -222,34 +167,46 @@ export default function ColPowerChart() {
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="ColumnDaysDefaultButton"
               >
-                <li>
+                <li className={chartDate == "last7days" ? "hidden" : ""}>
                   <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    دیروز
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    امروز
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => {
+                      setChartDate("last7days");
+                      setColumnData(null);
+                      setLoading(2);
+                    }}
+                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     ۷ روز اخیر
                   </a>
                 </li>
-                <li>
+                <li className={chartDate == "last14days" ? "hidden" : ""}>
+                  <a
+                    onClick={() => {
+                      setChartDate("last14days");
+                      setColumnData(null);
+                      setLoading(2);
+                    }}
+                    className="cursor-pointer block cursor-point px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    ۱۴ روز اخیر
+                  </a>
+                </li>
+                <li className={chartDate == "thismonth" ? "hidden" : ""}>
+                  <a
+                    onClick={() => {
+                      setChartDate("thismonth");
+                      setColumnData(null);
+                      setLoading(2);
+                    }}
+                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    این ماه
+                  </a>
+                </li>
+                {/* <li>
                   <a
                     href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     ۱ ماه اخیر
                   </a>
@@ -257,11 +214,11 @@ export default function ColPowerChart() {
                 <li>
                   <a
                     href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    className="cursor-pointerblock px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     ۳ ماه اخیر
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
             <a

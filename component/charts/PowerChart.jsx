@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { Spinner } from "flowbite-react";
-import loadPowerChart from "./LoadPowerChart";
-import formatTime from "./FormatPersianTime";
-import translateDate from "./TranslateToPersian";
+import { loadPowerChart } from "./utils/LoadCharts";
+import { formatTime } from "./utils/FormatPersianTime";
+import translateDate from "./utils/TranslateToPersian";
 
 export default function PowerChart() {
   const [loading, setLoading] = useState(true);
@@ -62,6 +62,14 @@ export default function PowerChart() {
             </h5>
             <p className="text-base font-normal text-gray-500 dark:text-gray-400">
               مصرف {translateDate(chartDate)}
+              {loading == 2 && (
+                <Spinner
+                  className="mr-2"
+                  aria-label="Power chart loader"
+                  size="sm"
+                  color="purple"
+                />
+              )}
             </p>
           </div>
           <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">

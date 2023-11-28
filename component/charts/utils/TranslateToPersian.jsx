@@ -11,6 +11,8 @@ const translateDate = (date) => {
     return "ماه اخیر"
   } else if (date == "lastmonth") {
     return "ماه گذشته"
+  } else if (date == "last30days") {
+    return "۳۰ روز اخیر"
   }
 };
 export default translateDate;

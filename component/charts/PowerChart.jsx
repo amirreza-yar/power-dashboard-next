@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Spinner } from "flowbite-react";
 import { loadPowerChart } from "./utils/LoadCharts";
-import { formatTime } from "./utils/FormatPersianTime";
+import { formatTime, formatDate } from "./utils/FormatPersianTime";
 import translateDate from "./utils/TranslateToPersian";
 
 export default function PowerChart() {
@@ -13,8 +13,9 @@ export default function PowerChart() {
 
   const loadChart = async () => {
     try {
-      let apiUrl = "http://rcpss-sutech.ir/django/power/?date=" + chartDate;
-      console.log("fetch running!  " + apiUrl);
+      let apiUrl = `http://rcpss-sutech.ir/django/${
+        chartDate === "last7days" ? "avg-power" : "power"
+      }/?date=${chartDate}`;
 
       const response = await fetch(apiUrl);
       const data = await response.json();
@@ -33,11 +34,17 @@ export default function PowerChart() {
       loadChart();
     }
     if (powerData !== null && chart !== null) {
-      const currentData = powerData.map((item) => item.power);
-      const timeData = powerData.map((item) => formatTime(item.datetime));
+      const currentData = powerData.map((item) =>
+        chartDate === "last7days" ? Math.floor(item.avg_power) : Math.floor(item.power)
+      );
+      const timeData = powerData.map((item) =>
+        chartDate === "last7days"
+          ? formatDate(item.date)
+          : formatTime(item.datetime)
+      );
 
-      setLoading(false);
       chart.render();
+      setLoading(false);
 
       chart.updateOptions({
         series: [
@@ -47,6 +54,11 @@ export default function PowerChart() {
         ],
         xaxis: {
           categories: timeData,
+          labels: {
+            style: {
+              colors: Array(timeData.length).fill('#6875f5'),
+            }
+          },
         },
       });
     }

@@ -15,7 +15,6 @@ export default function PowerChart() {
     try {
       let apiUrl =
         "http://rcpss-sutech.ir/django/min-max-power/?date=" + chartDate;
-      console.log("fetch running!  " + apiUrl);
 
       const response = await fetch(apiUrl);
       const data = await response.json();
@@ -34,28 +33,20 @@ export default function PowerChart() {
       loadChart();
     }
     if (columnData !== null && chart !== null) {
-      // console.log(formatDate("2023-11-28"));
       const timeData = columnData.map((item) => formatDate(item.date));
       const minPowerDataRaw = columnData.map((item) => item.min_power);
       const maxPowerDataRaw = columnData.map((item) => item.max_power);
 
       const minPowerData = timeData.map((time, index) => ({
         x: time,
-        y: minPowerDataRaw[index],
+        y: Math.floor(minPowerDataRaw[index]),
       }));
 
       const maxPowerData = timeData.map((time, index) => ({
         x: time,
-        y: maxPowerDataRaw[index],
+        y: Math.floor(maxPowerDataRaw[index]),
       }));
 
-      console.log(minPowerData);
-      console.log(maxPowerData);
-
-      console.log(
-        `min_powers: ${minPowerData}, max_powers: ${maxPowerData}, dates: ${timeData}`
-      );
-      console.log(timeData);
 
       setLoading(false);
       chart.render();
@@ -63,23 +54,26 @@ export default function PowerChart() {
       chart.updateOptions({
         series: [
           {
-            name: "بیشترین مصرف",
-            color: "#1A56DB",
             data: maxPowerData,
           },
           {
-            name: "کمترین مصرف",
-            color: "#FDBA8C",
             data: minPowerData,
           },
         ],
+        xaxis: {
+          labels: {
+            style: {
+              colors: Array(timeData.length).fill('#6875f5'),
+            }
+          },
+        },
       });
     }
   }, [columnData]);
 
   return (
     <>
-      <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 ">
+      <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-4">
         <div className="flex justify-between">
           <div>
             <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
@@ -191,16 +185,16 @@ export default function PowerChart() {
                     ۱۴ روز اخیر
                   </a>
                 </li>
-                <li className={chartDate == "thismonth" ? "hidden" : ""}>
+                <li className={chartDate == "last30days" ? "hidden" : ""}>
                   <a
                     onClick={() => {
-                      setChartDate("thismonth");
+                      setChartDate("last30days");
                       setColumnData(null);
                       setLoading(2);
                     }}
                     className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
-                    این ماه
+                    ۳۰ روز اخیر
                   </a>
                 </li>
                 {/* <li>

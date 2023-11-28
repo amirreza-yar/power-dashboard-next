@@ -15,7 +15,12 @@ const createPowerChart = (currentData, timeData) => {
     tooltip: {
       enabled: true,
       x: {
-        show: true,
+        show: false,
+      },
+      style: {
+        fontFamily: "iranyekan, sans-serif",
+        fill: "#627bff",
+        cssClass: "rtl",
       },
     },
     fill: {
@@ -48,17 +53,24 @@ const createPowerChart = (currentData, timeData) => {
         // data: [6500, 6418, 6456, 6526, 6356, 6456],
         data: currentData,
         color: "#1A56DB",
+        style: {
+          fontFamily: "iranyekan, sans-serif",
+          fill: "#627bff",
+          cssClass: "font-bold",
+        },
       },
     ],
     xaxis: {
       // categories: ["۱۲:۰۰", "۱۳:۰۰", "۱۴:۰۰", "۱۵:۰۰", "۱۶:۰۰", "۱۷:۰۰"],
       categories: timeData,
       labels: {
+        color: "#627bff",
         show: true,
         style: {
           fontFamily: "iranyekan, sans-serif",
-          fill: "#627bff",
-        },
+          cssClass: 'font-bold',
+          colors: ['#7769f5', '#7769f5'],
+        }
       },
       axisBorder: {
         show: false,
@@ -162,9 +174,10 @@ const createColChart = () => {
         show: true,
         style: {
           fontFamily: "iranyekan, sans-serif",
-          fill: "#627bff",
-          direction: "rtl",
-        },
+          cssClass: 'text-xs font-bold',
+          colors: ['#7769f5', '#7769f5'],
+
+        }
       },
       axisBorder: {
         show: false,

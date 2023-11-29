@@ -205,7 +205,7 @@ export function loadColChart(min_data, max_data) {
     const script = document.createElement("script");
     script.src = "https://cdn.jsdelivr.net/npm/apexcharts";
     script.async = true;
-    script.onload = loadColChart(min_data, max_data)
+    script.onload = createColChart(min_data, max_data);
     document.head.appendChild(script);
     // return createChart(currentData, timeData, chart_id);
   }

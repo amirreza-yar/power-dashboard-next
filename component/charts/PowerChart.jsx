@@ -160,7 +160,6 @@ export default function PowerChart() {
               autoHide={true}
               inline
               onSelectedDateChanged={(date) => {
-                console.log(date);
                 const persianDate = date.toLocaleDateString("en-GB", {
                   timeZone: "Asia/Tehran",
                 });
@@ -172,7 +171,6 @@ export default function PowerChart() {
                 document.getElementById("datePickerInlineButton").click();
                 // datePickerInline.classList.remove('block');
                 // datePickerInline.classList.add('hidden');
-                console.log("Inside datePicker: " + formattedDate);
                 setChartDate(formattedDate);
                 setPowerData(null);
                 setLoading(2);

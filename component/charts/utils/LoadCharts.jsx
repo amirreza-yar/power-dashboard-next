@@ -96,8 +96,8 @@ export function loadPowerChart(currentData, timeData, chart_id) {
     const script = document.createElement("script");
     script.src = "https://cdn.jsdelivr.net/npm/apexcharts";
     script.async = true;
-    script.onload = createPowerChart(currentData, timeData, chart_id);
     document.head.appendChild(script);
+    script.onload = createPowerChart(currentData, timeData, chart_id);
     // return createChart(currentData, timeData, chart_id);
   }
 }
@@ -205,8 +205,8 @@ export function loadColChart(min_data, max_data) {
     const script = document.createElement("script");
     script.src = "https://cdn.jsdelivr.net/npm/apexcharts";
     script.async = true;
-    script.onload = createColChart(min_data, max_data);
     document.head.appendChild(script);
+    script.onload = createColChart(min_data, max_data);
     // return createChart(currentData, timeData, chart_id);
   }
 }

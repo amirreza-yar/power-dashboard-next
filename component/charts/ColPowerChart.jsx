@@ -80,7 +80,7 @@ export default function PowerChart() {
               ۴۳۶w
             </h5>
             <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-              مصرف {translateDate(chartDate)}
+              بیشترین و کمترین مصرف {translateDate(chartDate)}
               {loading == 2 && (
                 <Spinner
                   className="mr-2"

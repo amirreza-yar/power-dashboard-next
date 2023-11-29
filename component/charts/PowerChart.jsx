@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { Spinner } from "flowbite-react";
+import { Spinner, theme } from "flowbite-react";
 import { loadPowerChart } from "./utils/LoadCharts";
 import { formatTime, formatDate } from "./utils/FormatPersianTime";
 import translateDate from "./utils/TranslateToPersian";
+import { Datepicker } from "flowbite-react";
 
 export default function PowerChart() {
   const [loading, setLoading] = useState(true);
@@ -31,11 +32,15 @@ export default function PowerChart() {
       setChart(loadPowerChart([0], [0]));
     }
     if (chartDate !== null && powerData === null) {
+      // const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+      // if (dateFormatRegex.test(chartDate))
       loadChart();
     }
     if (powerData !== null && chart !== null) {
       const currentData = powerData.map((item) =>
-        chartDate === "last7days" ? Math.floor(item.avg_power) : Math.floor(item.power)
+        chartDate === "last7days"
+          ? Math.floor(item.avg_power)
+          : Math.floor(item.power)
       );
       const timeData = powerData.map((item) =>
         chartDate === "last7days"
@@ -56,8 +61,20 @@ export default function PowerChart() {
           categories: timeData,
           labels: {
             style: {
-              colors: Array(timeData.length).fill('#6875f5'),
-            }
+              colors: Array(timeData.length).fill("#6875f5"),
+            },
+          },
+        },
+        noData: {
+          text: "داده‌ای برای این تاریخ وجود ندارد",
+          align: "center",
+          verticalAlign: "middle",
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            color: "#6875f5",
+            fontSize: "14px",
+            fontFamily: undefined,
           },
         },
       });
@@ -84,7 +101,34 @@ export default function PowerChart() {
               )}
             </p>
           </div>
-          <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
+
+          <button
+            type="button"
+            id="datePickerInlineButton"
+            data-dropdown-toggle="datePickerInline"
+            data-dropdown-placement="right-end"
+            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-0 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+          >
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              strokeWidth={0}
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+              className="h-5 w-5 text-gray-500 dark:text-gray-400"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+
+          {/* <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
             ۱۲٪
             <svg
               className="w-3 h-3 ms-1"
@@ -101,6 +145,37 @@ export default function PowerChart() {
                 d="M5 13V1m0 0L1 5m4-4 4 4"
               />
             </svg>
+          </div> */}
+          <div id="datePickerInline" className="hidden z-50" dir="ltr">
+            <Datepicker
+              // theme={datePickerTheme}
+              // dir="rtl"
+
+              language="fa-IR"
+              labelTodayButton="امروز"
+              labelClearButton="پاک کردن"
+              // maxDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+              maxDate={new Date()}
+              weekStart={0}
+              autoHide={true}
+              inline
+              onSelectedDateChanged={(date) => {
+                console.log(date);
+                const persianDate = date.toLocaleDateString("en-GB", {
+                  timeZone: "Asia/Tehran",
+                });
+                const formattedDate = persianDate
+                  .split("/")
+                  .reverse()
+                  .join("-");
+                // const formattedDate = `${year}-${month}-${day}`;
+
+                console.log("Inside datePicker: " + formattedDate);
+                setChartDate(formattedDate);
+                setPowerData(null);
+                setLoading(2);
+              }}
+            />
           </div>
         </div>
 
@@ -116,10 +191,16 @@ export default function PowerChart() {
             </div>
           </div>
         )}
-        <div id="area-chart" dir="ltr" />
+        {/* <div className="absolute z-50">
+          <div className="flex justify-center items-center pt-5">
+            <span dir="rtl">دیتایی برای نمایش وجود ندارد!</span>
+          </div>
+        </div> */}
+        <div id="area-chart" dir="ltr"></div>
 
         <div className="items-center border-gray-200 border-t dark:border-gray-700 justify-between">
           <div className="flex justify-between items-center pt-5">
+            {/* <Datepicker language="fa-IR" labelTodayButton="امروز" labelClearButton="پاک کردن" maxDate={new Date()} weekStart={0} /> */}
             {/* Button */}
             <button
               id="LineDefaultButton"
@@ -190,6 +271,19 @@ export default function PowerChart() {
                     ۷ روز اخیر
                   </a>
                 </li>
+                {/* <li>
+                  <button
+                    // id="datePickerInlineButton"
+                    // data-dropdown-toggle="datePickerInline"
+                    // data-dropdown-placement="right-end"
+                    // onClick={() => {
+                    //   setDatePicker(!datePicker);
+                    // }}
+                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    انتخاب تاریخ
+                  </button>
+                </li> */}
                 {/* <li>
                   <a
                     href="#"

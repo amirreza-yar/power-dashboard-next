@@ -169,7 +169,9 @@ export default function PowerChart() {
                   .reverse()
                   .join("-");
                 // const formattedDate = `${year}-${month}-${day}`;
-
+                document.getElementById("datePickerInlineButton").click();
+                // datePickerInline.classList.remove('block');
+                // datePickerInline.classList.add('hidden');
                 console.log("Inside datePicker: " + formattedDate);
                 setChartDate(formattedDate);
                 setPowerData(null);

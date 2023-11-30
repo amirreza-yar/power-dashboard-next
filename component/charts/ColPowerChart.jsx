@@ -47,7 +47,6 @@ export default function PowerChart() {
         y: Math.floor(maxPowerDataRaw[index]),
       }));
 
-
       setLoading(false);
       chart.render();
 
@@ -63,8 +62,8 @@ export default function PowerChart() {
         xaxis: {
           labels: {
             style: {
-              colors: Array(timeData.length).fill('#6875f5'),
-            }
+              colors: Array(timeData.length).fill("#6875f5"),
+            },
           },
         },
       });
@@ -77,7 +76,7 @@ export default function PowerChart() {
         <div className="flex justify-between">
           <div>
             <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
-              ۴۳۶w
+              ۴۳۶w (DEV)
             </h5>
             <p className="text-base font-normal text-gray-500 dark:text-gray-400">
               بیشترین و کمترین مصرف {translateDate(chartDate)}
@@ -91,7 +90,7 @@ export default function PowerChart() {
               )}
             </p>
           </div>
-          <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
+          {/* <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
             ۱۲٪
             <svg
               className="w-3 h-3 ms-1"
@@ -108,7 +107,7 @@ export default function PowerChart() {
                 d="M5 13V1m0 0L1 5m4-4 4 4"
               />
             </svg>
-          </div>
+          </div> */}
         </div>
 
         {/* Power chart here */}
@@ -215,11 +214,12 @@ export default function PowerChart() {
                 </li> */}
               </ul>
             </div>
-            <a
+            <button
+              disabled
               href="#"
               className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
             >
-              دریافت گزارش
+              دریافت گزارش (DEV)
               <svg
                 className="w-3 h-3 mr-2 rotate-180"
                 aria-hidden="true"
@@ -235,7 +235,7 @@ export default function PowerChart() {
                   d="m1 9 4-4-4-4"
                 />
               </svg>
-            </a>
+            </button>
           </div>
         </div>
       </div>

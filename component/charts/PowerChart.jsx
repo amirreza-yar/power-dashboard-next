@@ -66,7 +66,7 @@ export default function PowerChart() {
           },
         },
         noData: {
-          text: "داده‌ای برای این تاریخ وجود ندارد",
+          text: `داده‌ای برای ${translateDate(chartDate)} وجود ندارد`,
           align: "center",
           verticalAlign: "middle",
           offsetX: 0,
@@ -87,7 +87,7 @@ export default function PowerChart() {
         <div className="flex justify-between">
           <div>
             <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
-              ۴۳۶w
+              ۴۳۶w (DEV)
             </h5>
             <p className="text-base font-normal text-gray-500 dark:text-gray-400">
               مصرف {translateDate(chartDate)}
@@ -302,11 +302,12 @@ export default function PowerChart() {
                 </li> */}
               </ul>
             </div>
-            <a
+            <button
+              disabled
               href="#"
               className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
             >
-              دریافت گزارش
+              دریافت گزارش (DEV)
               <svg
                 className="w-3 h-3 mr-2 rotate-180"
                 aria-hidden="true"
@@ -322,7 +323,7 @@ export default function PowerChart() {
                   d="m1 9 4-4-4-4"
                 />
               </svg>
-            </a>
+            </button>
           </div>
         </div>
       </div>

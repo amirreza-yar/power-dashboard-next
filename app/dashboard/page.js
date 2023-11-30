@@ -64,7 +64,7 @@ export default function Dashboard() {
               className="flex items-center justify-between sm:mr-4 mr-2"
             >
               <img
-                src="https://flowbite.s3.amazonaws.com/logo.svg"
+                src="/images/logo.svg"
                 className="ml-3 sm:h-8 h-6 mr-2"
                 alt="Flowbite Logo"
               />
@@ -134,7 +134,7 @@ export default function Dashboard() {
               <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
                 Notifications
               </div>
-              <div>
+              {/* <div>
                 <a
                   href="#"
                   className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
@@ -328,7 +328,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </a>
-              </div>
+              </div> */}
               <a
                 href="#"
                 className="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:underline"
@@ -363,12 +363,12 @@ export default function Dashboard() {
               <span className="sr-only">Open user menu</span>
               <img
                 className="w-8 h-8 rounded-full"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+                src="/images/michael-gough.png"
                 alt="user photo"
               />
             </button>
             {/* Dropdown menu */}
-            <div
+            {/* <div
               className="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
               id="dropdown"
             >
@@ -491,7 +491,7 @@ export default function Dashboard() {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>
@@ -541,7 +541,7 @@ export default function Dashboard() {
                   />
                 </svg>
 
-                <span className="mr-3 ">دریافت قبض</span>
+                <span className="mr-3 ">دریافت قبض (DEV)</span>
               </a>
             </li>
             <li>
@@ -563,7 +563,7 @@ export default function Dashboard() {
                   />
                 </svg>
 
-                <span className="mr-3 ">ارتباط با پشتیبان</span>
+                <span className="mr-3 ">ارتباط با پشتیبان (DEV)</span>
               </a>
             </li>
             <li>
@@ -582,7 +582,7 @@ export default function Dashboard() {
                   <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
                 </svg>
 
-                <span className="mr-3 ">پیام‌ها و اعلانات</span>
+                <span className="mr-3 ">پیام‌ها و اعلانات (DEV)</span>
               </a>
             </li>
           </ul>
@@ -606,7 +606,7 @@ export default function Dashboard() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="mr-3">اسـنـاد</span>
+                <span className="mr-3">اسـنـاد (DEV)</span>
               </a>
             </li>
             <li className="sm:hidden block">
@@ -663,7 +663,7 @@ export default function Dashboard() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="mr-3">تنظیمات</span>
+                <span className="mr-3">تنظیمات (DEV)</span>
               </a>
               <div
                 id="tooltip-settings"
@@ -694,7 +694,7 @@ export default function Dashboard() {
                     d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3"
                   ></path>
                 </svg>
-                <span className="mr-3">خــروج</span>
+                <span className="mr-3">خــروج (DEV)</span>
               </a>
             </li>
           </ul>

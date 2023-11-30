@@ -94,7 +94,7 @@ export function loadPowerChart(currentData, timeData, chart_id) {
     return createPowerChart(currentData, timeData, chart_id);
   } else {
     const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/apexcharts";
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js";
     script.async = true;
     document.head.appendChild(script);
     script.onload = createPowerChart(currentData, timeData, chart_id);
@@ -203,7 +203,7 @@ export function loadColChart(min_data, max_data) {
     return createColChart(min_data, max_data);
   } else {
     const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/apexcharts";
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js";
     script.async = true;
     document.head.appendChild(script);
     script.onload = createColChart(min_data, max_data);

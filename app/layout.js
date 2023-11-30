@@ -10,7 +10,8 @@ export default function RootLayout({ children }) {
     <html id="html" lang="en" dir="rtl">
       <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js" async></script>
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+        {/* <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script> */}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js"></script>
         {children}
       </body>
     </html>

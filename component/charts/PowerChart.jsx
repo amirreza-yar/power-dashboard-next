@@ -107,7 +107,7 @@ export default function PowerChart() {
               colors: ["#7769f5", "#7769f5"],
             },
             formatter: (val) => {
-              return val + "w";
+              return Math.round(val) + "w";
             },
           },
           axisBorder: {

@@ -8,8 +8,41 @@ const createPowerChart = (currentData, timeData) => {
       dropShadow: {
         enabled: false,
       },
+      zoom: {
+        autoScaleYaxis: true,
+      },
       toolbar: {
-        show: false,
+        show: true,
+        offsetX: -10,
+        offsetY: 30,
+        tools: {
+          download: false,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true,
+          customIcons: [],
+        },
+        export: {
+          csv: {
+            filename: undefined,
+            columnDelimiter: ",",
+            headerCategory: "category",
+            headerValue: "value",
+            dateFormatter(timestamp) {
+              return new Date(timestamp).toDateString();
+            },
+          },
+          svg: {
+            filename: undefined,
+          },
+          png: {
+            filename: undefined,
+          },
+        },
+        autoSelected: "zoom",
       },
     },
     tooltip: {
@@ -49,7 +82,7 @@ const createPowerChart = (currentData, timeData) => {
     },
     series: [
       {
-        name: "مصرف",
+        name: "توان مصرف",
         // data: [6500, 6418, 6456, 6526, 6356, 6456],
         data: currentData,
         color: "#1A56DB",
@@ -61,16 +94,16 @@ const createPowerChart = (currentData, timeData) => {
       },
     ],
     xaxis: {
-      // categories: ["۱۲:۰۰", "۱۳:۰۰", "۱۴:۰۰", "۱۵:۰۰", "۱۶:۰۰", "۱۷:۰۰"],
       categories: timeData,
       labels: {
         color: "#627bff",
         show: true,
+        offsetX: 4,
         style: {
           fontFamily: "iranyekan, sans-serif",
-          cssClass: 'font-bold',
-          colors: ['#7769f5', '#7769f5'],
-        }
+          cssClass: "font-bold",
+          colors: ["#7769f5", "#7769f5"],
+        },
       },
       axisBorder: {
         show: false,
@@ -78,9 +111,6 @@ const createPowerChart = (currentData, timeData) => {
       axisTicks: {
         show: false,
       },
-    },
-    yaxis: {
-      show: false,
     },
   };
 
@@ -94,7 +124,8 @@ export function loadPowerChart(currentData, timeData, chart_id) {
     return createPowerChart(currentData, timeData, chart_id);
   } else {
     const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js";
+    script.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js";
     script.async = true;
     document.head.appendChild(script);
     script.onload = createPowerChart(currentData, timeData, chart_id);
@@ -109,12 +140,12 @@ const createColChart = () => {
       {
         name: "بیشترین مصرف",
         color: "#1A56DB",
-        data: [0]
+        data: [0],
       },
       {
         name: "کمترین مصرف",
         color: "#FDBA8C",
-        data: [0]
+        data: [0],
       },
     ],
     chart: {
@@ -174,10 +205,9 @@ const createColChart = () => {
         show: true,
         style: {
           fontFamily: "iranyekan, sans-serif",
-          cssClass: 'text-xs font-bold',
-          colors: ['#7769f5', '#7769f5'],
-
-        }
+          cssClass: "text-xs font-bold",
+          colors: ["#7769f5", "#7769f5"],
+        },
       },
       axisBorder: {
         show: false,
@@ -194,7 +224,10 @@ const createColChart = () => {
     },
   };
 
-  const chart = new ApexCharts(document.getElementById("column-chart"), options);
+  const chart = new ApexCharts(
+    document.getElementById("column-chart"),
+    options
+  );
   return chart;
 };
 
@@ -203,7 +236,8 @@ export function loadColChart(min_data, max_data) {
     return createColChart(min_data, max_data);
   } else {
     const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js";
+    script.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js";
     script.async = true;
     document.head.appendChild(script);
     script.onload = createColChart(min_data, max_data);

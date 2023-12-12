@@ -12,8 +12,8 @@ export default function RootLayout({ children }) {
         {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js" async></script> */}
         {/* <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script> */}
         {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js"></script> */}
-        <script src="http://rcpss-sutech.ir/js/apexchart.js" defer></script>
-        <script src="http://rcpss-sutech.ir/js/flowbite.min.js" defer></script>
+        <script src="js/apexchart.js" defer></script>
+        <script src="js/flowbite.min.js" defer></script>
         {children}
       </body>
     </html>

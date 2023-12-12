@@ -11,6 +11,15 @@ export default function PowerChart() {
   const [powerData, setPowerData] = useState(null);
   const [chart, setChart] = useState(null);
   const [chartDate, setChartDate] = useState("today");
+  const [maxAllowedCons, setMaxAllowedCons] = useState(450);
+
+  Array.prototype.max = function () {
+    return Math.max.apply(null, this);
+  };
+
+  Array.prototype.min = function () {
+    return Math.min.apply(null, this);
+  };
 
   const loadChart = async () => {
     try {
@@ -36,7 +45,7 @@ export default function PowerChart() {
       // if (dateFormatRegex.test(chartDate))
       loadChart();
     }
-    if (powerData !== null && chart !== null) {
+    if (powerData !== null && chart !== null && maxAllowedCons !== null) {
       const currentData = powerData.map((item) =>
         chartDate === "last7days"
           ? Math.floor(item.avg_power)
@@ -48,21 +57,64 @@ export default function PowerChart() {
           : formatTime(item.datetime)
       );
 
-      chart.render();
+      try {
+        chart.render();
+      } catch (error) {
+        // console.log(error);
+        chart.render();
+      }
+
       setLoading(false);
 
       chart.updateOptions({
         series: [
           {
             data: currentData,
+            color: currentData.max() >= maxAllowedCons ? "#db1a1a" : "#1adb51",
+            style: {
+              fontFamily: "iranyekan, sans-serif",
+              fill: currentData.max() >= maxAllowedCons ? "#ff6262" : "#65ff62",
+              cssClass: "font-bold",
+            },
           },
         ],
+        fill: {
+          type: "gradient",
+          gradient: {
+            opacityFrom: 0.55,
+            opacityTo: 0,
+            shade: currentData.max() >= maxAllowedCons ? "#f21c1c" : "#1cf26e",
+            gradientToColors:
+              currentData.max() >= maxAllowedCons ? ["#f21c1c"] : ["#1cf26e"],
+          },
+        },
         xaxis: {
+          tickAmount: 12,
           categories: timeData,
           labels: {
             style: {
               colors: Array(timeData.length).fill("#6875f5"),
             },
+          },
+        },
+        yaxis: {
+          labels: {
+            color: "#627bff",
+            show: currentData.length === 0 ? false : true,
+            style: {
+              fontFamily: "iranyekan, sans-serif",
+              cssClass: "font-bold",
+              colors: ["#7769f5", "#7769f5"],
+            },
+            formatter: (val) => {
+              return val + "w";
+            },
+          },
+          axisBorder: {
+            show: false,
+          },
+          axisTicks: {
+            show: false,
           },
         },
         noData: {
@@ -77,6 +129,26 @@ export default function PowerChart() {
             fontFamily: undefined,
           },
         },
+        grid: {
+          show: currentData.length === 0 ? false : true,
+          borderColor: "#90A4AE",
+        },
+        annotations: {
+          yaxis: [
+            {
+              y: maxAllowedCons,
+              borderColor: "#6875f5",
+              label: {
+                borderColor: null,
+                style: {
+                  color: "#fff",
+                  background: "#6875f5",
+                },
+                text: "حد مجاز مصرف",
+              },
+            },
+          ],
+        },
       });
     }
   }, [powerData]);
@@ -90,7 +162,7 @@ export default function PowerChart() {
               ۴۳۶w (DEV)
             </h5>
             <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-              مصرف {translateDate(chartDate)}
+              توان مصرفی {translateDate(chartDate)}
               {loading == 2 && (
                 <Spinner
                   className="mr-2"

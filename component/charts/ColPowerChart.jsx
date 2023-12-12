@@ -60,6 +60,7 @@ export default function PowerChart() {
           },
         ],
         xaxis: {
+          tickAmount: 12,
           labels: {
             style: {
               colors: Array(timeData.length).fill("#6875f5"),

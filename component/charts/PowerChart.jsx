@@ -5,6 +5,7 @@ import { loadPowerChart } from "./utils/LoadCharts";
 import { formatTime, formatDate } from "./utils/FormatPersianTime";
 import translateDate from "./utils/TranslateToPersian";
 import { Datepicker } from "flowbite-react";
+import jsPDF from "jspdf";
 
 export default function PowerChart() {
   const [loading, setLoading] = useState(true);
@@ -375,8 +376,13 @@ export default function PowerChart() {
               </ul>
             </div>
             <button
-              disabled
-              href="#"
+              onClick={() => {
+                chart.dataURI().then(({ imgURI, blob }) => {
+                  const pdf = new jsPDF();
+                  pdf.addImage(imgURI, "PNG", 0, 0);
+                  pdf.save("pdf-chart.pdf");
+                });
+              }}
               className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
             >
               دریافت گزارش (DEV)

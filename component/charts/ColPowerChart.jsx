@@ -2,19 +2,21 @@
 import { useEffect, useState, useRef } from "react";
 import { Spinner } from "flowbite-react";
 import { loadColChart } from "./utils/LoadCharts";
-import { formatDate } from "./utils/FormatPersianTime";
+import { formatDate, toPersianNumeral } from "./utils/FormatPersianTime";
 import translateDate from "./utils/TranslateToPersian";
+import { exportAsImage } from "./utils/DownloadChart";
 
 export default function PowerChart() {
   const [loading, setLoading] = useState(true);
   const [columnData, setColumnData] = useState(null);
   const [chart, setChart] = useState(null);
   const [chartDate, setChartDate] = useState("last7days");
+  const chartRef = useRef(null);
 
   const loadChart = async () => {
     try {
       let apiUrl =
-        "http://rcpss-sutech.ir/django/min-max-power/?date=" + chartDate;
+        "http://rcpss-sutech.ir/django/energy-stat/?range=" + chartDate;
 
       const response = await fetch(apiUrl);
       const data = await response.json();
@@ -33,19 +35,9 @@ export default function PowerChart() {
       loadChart();
     }
     if (columnData !== null && chart !== null) {
-      const timeData = columnData.map((item) => formatDate(item.date));
-      const minPowerDataRaw = columnData.map((item) => item.min_power);
-      const maxPowerDataRaw = columnData.map((item) => item.max_power);
-
-      const minPowerData = timeData.map((time, index) => ({
-        x: time,
-        y: Math.floor(minPowerDataRaw[index]),
-      }));
-
-      const maxPowerData = timeData.map((time, index) => ({
-        x: time,
-        y: Math.floor(maxPowerDataRaw[index]),
-      }));
+      console.log(columnData);
+      const timeData = Object.keys(columnData);
+      const energyData = Object.values(columnData);
 
       setLoading(false);
       chart.render();
@@ -53,11 +45,14 @@ export default function PowerChart() {
       chart.updateOptions({
         series: [
           {
-            data: maxPowerData,
+            data: timeData.map((time, index) => ({
+              x: formatDate(time),
+              y: Math.floor(energyData[index]),
+            })),
           },
-          {
-            data: minPowerData,
-          },
+          // {
+          //   data: minPowerData,
+          // },
         ],
         xaxis: {
           tickAmount: 12,
@@ -67,6 +62,42 @@ export default function PowerChart() {
             },
           },
         },
+        yaxis: {
+          labels: {
+            color: "#627bff",
+            show: energyData.length === 0 ? false : true,
+            style: {
+              fontFamily: "iranyekan, sans-serif",
+              cssClass: "font-bold",
+              colors: ["#7769f5", "#7769f5"],
+            },
+            formatter: (val) => {
+              return toPersianNumeral(Math.round(val)) + "w";
+            },
+          },
+          axisBorder: {
+            show: false,
+          },
+          axisTicks: {
+            show: false,
+          },
+        },
+        noData: {
+          text: `داده‌ای برای ${translateDate(chartDate)} وجود ندارد`,
+          align: "center",
+          verticalAlign: "middle",
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            color: "#6875f5",
+            fontSize: "14px",
+            fontFamily: undefined,
+          },
+        },
+        grid: {
+          show: energyData.length === 0 ? false : true,
+          borderColor: "#90A4AE",
+        },
       });
     }
   }, [columnData]);
@@ -74,24 +105,36 @@ export default function PowerChart() {
   return (
     <>
       <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-4">
-        <div className="flex justify-between">
-          <div>
-            <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
-              ۴۳۶w (DEV)
-            </h5>
-            <p className="text-base font-normal text-gray-500 dark:text-gray-400">
-              بیشترین و کمترین مصرف {translateDate(chartDate)}
-              {loading == 2 && (
-                <Spinner
-                  className="mr-2"
-                  aria-label="Power chart loader"
-                  size="sm"
-                  color="purple"
-                />
-              )}
-            </p>
-          </div>
-          {/* <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
+        <div ref={chartRef}>
+          <div className="flex justify-between">
+            <div>
+              <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
+                {columnData &&
+                  toPersianNumeral(
+                    Math.floor(
+                      Object.values(columnData).reduce(
+                        (accumulator, currentValue) => {
+                          return accumulator + currentValue;
+                        },
+                        0
+                      )
+                    )
+                  )}
+                <span className="text-base pl-2">Wh</span>
+              </h5>
+              <p className="text-base font-normal text-gray-500 dark:text-gray-400">
+                میزان مصرف {translateDate(chartDate)}
+                {loading == 2 && (
+                  <Spinner
+                    className="mr-2"
+                    aria-label="Power chart loader"
+                    size="sm"
+                    color="purple"
+                  />
+                )}
+              </p>
+            </div>
+            {/* <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
             ۱۲٪
             <svg
               className="w-3 h-3 ms-1"
@@ -109,21 +152,22 @@ export default function PowerChart() {
               />
             </svg>
           </div> */}
-        </div>
-
-        {/* Power chart here */}
-        {loading == true && (
-          <div className="text-center" style={{ margin: "150px" }}>
-            <div className="text-center">
-              <Spinner
-                aria-label="Power chart loader"
-                size="xl"
-                color="purple"
-              />
-            </div>
           </div>
-        )}
-        <div id="column-chart" dir="ltr" />
+
+          {/* Power chart here */}
+          {loading == true && (
+            <div className="text-center" style={{ margin: "150px" }}>
+              <div className="text-center">
+                <Spinner
+                  aria-label="Power chart loader"
+                  size="xl"
+                  color="purple"
+                />
+              </div>
+            </div>
+          )}
+          <div id="column-chart" dir="ltr" />
+        </div>
 
         <div className="items-center border-gray-200 border-t dark:border-gray-700 justify-between">
           <div className="flex justify-between items-center pt-5">
@@ -216,11 +260,12 @@ export default function PowerChart() {
               </ul>
             </div>
             <button
-              disabled
-              href="#"
+              onClick={() => {
+                exportAsImage(chartRef.current, `گزارش مصرف ${translateDate(chartDate)}`);
+              }}
               className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
             >
-              دریافت گزارش (DEV)
+              دریافت گزارش
               <svg
                 className="w-3 h-3 mr-2 rotate-180"
                 aria-hidden="true"

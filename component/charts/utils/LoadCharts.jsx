@@ -133,6 +133,110 @@ export function loadPowerChart(currentData, timeData, chart_id) {
   }
 }
 
+const createPieChart = () => {
+  const options = {
+    series: [35.1, 23.5, 2.4, 5.4],
+    colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
+    chart: {
+      height: 320,
+      width: "100%",
+      type: "donut",
+    },
+    stroke: {
+      colors: ["transparent"],
+      lineCap: "",
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          labels: {
+            show: true,
+            name: {
+              show: true,
+              fontFamily: "Inter, sans-serif",
+              offsetY: 20,
+            },
+            total: {
+              showAlways: true,
+              show: true,
+              label: "Unique visitors",
+              fontFamily: "Inter, sans-serif",
+              formatter: function (w) {
+                const sum = w.globals.seriesTotals.reduce((a, b) => {
+                  return a + b;
+                }, 0);
+                return `${sum}k`;
+              },
+            },
+            value: {
+              show: true,
+              fontFamily: "Inter, sans-serif",
+              offsetY: -20,
+              formatter: function (value) {
+                return value + "k";
+              },
+            },
+          },
+          size: "80%",
+        },
+      },
+    },
+    grid: {
+      padding: {
+        top: -2,
+      },
+    },
+    labels: ["Direct", "Sponsor", "Affiliate", "Email marketing"],
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      position: "bottom",
+      fontFamily: "Inter, sans-serif",
+    },
+    yaxis: {
+      labels: {
+        formatter: function (value) {
+          return value + "k";
+        },
+      },
+    },
+    xaxis: {
+      labels: {
+        formatter: function (value) {
+          return value + "k";
+        },
+      },
+      axisTicks: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+    },
+  };
+
+  const chart = new ApexCharts(
+    document.getElementById("pie-chart"),
+    options
+  );
+  return chart;
+};
+
+export function loadPieChart(min_data, max_data) {
+  if (typeof ApexCharts !== "undefined") {
+    return createColChart(min_data, max_data);
+  } else {
+    const script = document.createElement("script");
+    script.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js";
+    script.async = true;
+    document.head.appendChild(script);
+    script.onload = createColChart(min_data, max_data);
+    // return createChart(currentData, timeData, chart_id);
+  }
+}
+
 const createColChart = () => {
   const options = {
     colors: ["#1A56DB", "#FDBA8C"],
@@ -154,6 +258,42 @@ const createColChart = () => {
       fontFamily: "iranyekan, sans-serif",
       toolbar: {
         show: false,
+      },
+      zoom: {
+        autoScaleYaxis: true,
+      },
+      toolbar: {
+        show: true,
+        offsetX: -10,
+        offsetY: 30,
+        tools: {
+          download: false,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true,
+          customIcons: [],
+        },
+        export: {
+          csv: {
+            filename: undefined,
+            columnDelimiter: ",",
+            headerCategory: "category",
+            headerValue: "value",
+            dateFormatter(timestamp) {
+              return new Date(timestamp).toDateString();
+            },
+          },
+          svg: {
+            filename: undefined,
+          },
+          png: {
+            filename: undefined,
+          },
+        },
+        autoSelected: "zoom",
       },
     },
     plotOptions: {

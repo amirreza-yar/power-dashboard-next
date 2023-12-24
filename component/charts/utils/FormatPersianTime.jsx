@@ -16,9 +16,21 @@ export const formatDate = (dateString) => {
     day: "numeric",
   };
   const persianDate = date.toLocaleTimeString("fa-IR", options);
-  
-  const parts = persianDate.split(' ');
-  const result = parts.slice(0, 2).join(' ');
+
+  const parts = persianDate.split(" ");
+  const result = parts.slice(0, 2).join(" ");
 
   return result;
 };
+
+export function toPersianNumeral(number) {
+  const persianNumerals = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  const isNegative = number < 0;
+  const absNumber = Math.abs(number);
+  return (
+    String(absNumber)
+      .split("")
+      .map((digit) => persianNumerals[digit])
+      .join("") + (isNegative ? "-" : "")
+  );
+}

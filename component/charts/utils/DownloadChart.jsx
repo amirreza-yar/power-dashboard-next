@@ -3,6 +3,9 @@ import html2canvas from "html2canvas";
 export const exportAsImage = async (element, imageFileName, padding = 10) => {
   const html = document.getElementsByTagName("html")[0];
   const body = document.getElementsByTagName("body")[0];
+  const datePicker = document.getElementById("datePickerInlineButton");
+
+  datePicker.classList.add("hidden");
 
   // Calculate the new widths with padding
   const htmlWidth = html.clientWidth + 2 * padding;
@@ -28,6 +31,7 @@ export const exportAsImage = async (element, imageFileName, padding = 10) => {
   body.style.width = null;
   element.style.paddingLeft = null;
   element.style.paddingRight = null;
+  datePicker.classList.remove("hidden");
 };
 
 const downloadImage = (blob, fileName) => {

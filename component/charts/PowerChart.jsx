@@ -61,19 +61,20 @@ export default function PowerChart() {
   useEffect(() => {
     if (chart === null) {
       setChart(loadPowerChart([0], [0]));
+      setMaxAllowedCons(450);
     }
     if (chartDate !== null && powerData === null) {
       // const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
       // if (dateFormatRegex.test(chartDate))
       loadChart();
     }
-    if (powerData !== null && chart !== null && maxAllowedCons !== null) {
-      console.log(powerData["max_power"]);
-      console.log(
-        Math.floor(
-          ((powerData["avg_power"] - maxAllowedCons) / maxAllowedCons) * 100
-        )
-      );
+    if (powerData !== null && chart !== null && maxAllowedCons !== null && maxAllowedCons !== null) {
+      // console.log(powerData["max_power"]);
+      // console.log(
+      //   Math.floor(
+      //     ((powerData["avg_power"] - maxAllowedCons) / maxAllowedCons) * 100
+      //   )
+      // );
 
       setChangeRate(
         Math.floor(
@@ -87,7 +88,6 @@ export default function PowerChart() {
       if (powerData.powers !== null) {
         currentData = powerData.powers.map((item) => Math.floor(item.power));
         timeData = powerData.powers.map((item) => formatTime(item.hour));
-        setMaxAllowedCons(450);
       }
 
       try {
@@ -236,7 +236,7 @@ export default function PowerChart() {
           ],
           points: [
             {
-              y: Math.floor(powerData.max_power),
+              y: Math.floor(currentData.max()),
               x: timeData[
                 currentData.findIndex((entery) => entery === currentData.max())
               ],
@@ -259,7 +259,7 @@ export default function PowerChart() {
               },
             },
             {
-              y: Math.floor(powerData.min_power),
+              y: Math.floor(currentData.min()),
               x: timeData[
                 currentData.findIndex((entery) => entery === currentData.min())
               ],
@@ -278,7 +278,7 @@ export default function PowerChart() {
                   background: "#FDBA8C",
                 },
 
-                text: "بیشترین توان مصرفی",
+                text: "کمترین توان مصرفی",
               },
             },
           ],

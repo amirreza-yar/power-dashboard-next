@@ -35,7 +35,7 @@ export default function PowerChart() {
       loadChart();
     }
     if (columnData !== null && chart !== null) {
-      console.log(columnData);
+      // console.log(columnData);
       const timeData = Object.keys(columnData);
       const energyData = Object.values(columnData);
 

@@ -209,7 +209,7 @@ export default function PowerChart() {
                   color: "#fff",
                   background: "#6875f5",
                 },
-                text: "حد مجاز توان مصرف",
+                text: `حد مجاز توان مصرف ${toPersianNumeral(Math.floor(maxAllowedCons))} وات`,
               },
             },
             {
@@ -230,7 +230,7 @@ export default function PowerChart() {
                       ? "#f74848"
                       : "#80ed5f",
                 },
-                text: "میانگین توان مصرفی",
+                text: `میانگین توان مصرفی ${toPersianNumeral(Math.floor(powerData["avg_power"]))} وات`,
               },
             },
           ],

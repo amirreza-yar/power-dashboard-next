@@ -14,7 +14,7 @@ const createPowerChart = (currentData, timeData) => {
       toolbar: {
         show: true,
         offsetX: -10,
-        offsetY: 30,
+        offsetY: 380,
         tools: {
           download: false,
           selection: true,

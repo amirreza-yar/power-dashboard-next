@@ -68,7 +68,12 @@ export default function PowerChart() {
       // if (dateFormatRegex.test(chartDate))
       loadChart();
     }
-    if (powerData !== null && chart !== null && maxAllowedCons !== null && maxAllowedCons !== null) {
+    if (
+      powerData !== null &&
+      chart !== null &&
+      maxAllowedCons !== null &&
+      maxAllowedCons !== null
+    ) {
       // console.log(powerData["max_power"]);
       // console.log(
       //   Math.floor(
@@ -204,12 +209,19 @@ export default function PowerChart() {
               borderWidth: 4,
               borderColor: "#6875f5",
               label: {
+                offsetY:
+                  Math.floor(maxAllowedCons) >=
+                  Math.floor(powerData["avg_power"])
+                    ? -4
+                    : 19,
                 borderColor: null,
                 style: {
                   color: "#fff",
                   background: "#6875f5",
                 },
-                text: `حد مجاز توان مصرف ${toPersianNumeral(Math.floor(maxAllowedCons))} وات`,
+                text: `حد مجاز توان مصرف ${toPersianNumeral(
+                  Math.floor(maxAllowedCons)
+                )} وات`,
               },
             },
             {
@@ -222,6 +234,11 @@ export default function PowerChart() {
               borderColor:
                 powerData.avg_power >= maxAllowedCons ? "#f74848" : "#80ed5f",
               label: {
+                offsetY:
+                  Math.floor(maxAllowedCons) >=
+                  Math.floor(powerData["avg_power"])
+                    ? 19
+                    : -4,
                 borderColor: null,
                 style: {
                   color: "#333",
@@ -230,7 +247,9 @@ export default function PowerChart() {
                       ? "#f74848"
                       : "#80ed5f",
                 },
-                text: `میانگین توان مصرفی ${toPersianNumeral(Math.floor(powerData["avg_power"]))} وات`,
+                text: `میانگین توان مصرفی ${toPersianNumeral(
+                  Math.floor(powerData["avg_power"])
+                )} وات`,
               },
             },
           ],
@@ -241,6 +260,7 @@ export default function PowerChart() {
                 currentData.findIndex((entery) => entery === currentData.max())
               ],
               marker: {
+                offsetX: -8,
                 size: 8,
                 fillColor: "#fff",
                 strokeColor: "#FDBA8C",
@@ -248,6 +268,17 @@ export default function PowerChart() {
                 cssClass: "apexcharts-custom-class",
               },
               label: {
+                offsetX:
+                  currentData.findIndex(
+                    (entery) => entery === currentData.max()
+                  ) ===
+                  timeData.length - 1
+                    ? -60
+                    : currentData.findIndex(
+                        (entery) => entery === currentData.max()
+                      ) === 0
+                    ? 50
+                    : 0,
                 borderColor: "#FDBA8C",
                 offsetY: 0,
                 style: {
@@ -264,6 +295,7 @@ export default function PowerChart() {
                 currentData.findIndex((entery) => entery === currentData.min())
               ],
               marker: {
+                offsetX: -8,
                 size: 8,
                 fillColor: "#fff",
                 strokeColor: "#FDBA8C",
@@ -271,6 +303,17 @@ export default function PowerChart() {
                 cssClass: "apexcharts-custom-class",
               },
               label: {
+                offsetX:
+                  currentData.findIndex(
+                    (entery) => entery === currentData.min()
+                  ) ===
+                  timeData.length - 1
+                    ? -50
+                    : currentData.findIndex(
+                        (entery) => entery === currentData.min()
+                      ) === 0
+                    ? 40
+                    : 0,
                 borderColor: "#FDBA8C",
                 offsetY: 0,
                 style: {
@@ -546,7 +589,10 @@ export default function PowerChart() {
               //   });
               // }}
               onClick={() => {
-                exportAsImage(divRef.current, `گزارش توان مصرفی ${transPerDate(chartDate)}`);
+                exportAsImage(
+                  divRef.current,
+                  `گزارش توان مصرفی ${transPerDate(chartDate)}`
+                );
               }}
               id="exportOptionsButton"
               // data-dropdown-toggle="exportOptions"

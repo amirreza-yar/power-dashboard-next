@@ -1,4 +1,6 @@
 import html2canvas from "html2canvas";
+import { formatTime, toPersianNumeral } from "./FormatPersianTime";
+import { transPerDate } from "./TranslateToPersian";
 
 export const exportAsImage = async (element, imageFileName, padding = 10) => {
   const html = document.getElementsByTagName("html")[0];
@@ -24,7 +26,7 @@ export const exportAsImage = async (element, imageFileName, padding = 10) => {
 
   // Convert the canvas to a PNG image and download it
   const image = canvas.toDataURL("image/png", 1.0);
-  downloadImage(image, imageFileName);
+  downloadBlob(image, imageFileName);
 
   // Reset styles
   html.style.width = null;
@@ -34,7 +36,7 @@ export const exportAsImage = async (element, imageFileName, padding = 10) => {
   datePicker.classList.remove("hidden");
 };
 
-const downloadImage = (blob, fileName) => {
+const downloadBlob = (blob, fileName) => {
   const fakeLink = window.document.createElement("a");
   fakeLink.style = "display:none;";
   fakeLink.download = fileName;
@@ -47,3 +49,56 @@ const downloadImage = (blob, fileName) => {
 
   fakeLink.remove();
 };
+
+export const exportAsCSV = (jsonData, fileName) => {
+  const modifiedData = modifyKeys(jsonData);
+
+  // Convert each row of the "مصرف ساعتی" array to a CSV row
+  const csvRows = modifiedData["مصرف ساعتی"].map((item, index) => {
+    if (index === 0) {
+      return `"${formatTime(item.hour)} > ${item.power}","${
+        modifiedData["تاریخ"]
+      }","${modifiedData["کمترین توان مصرفی"]}","${
+        modifiedData["بیشترین توان مصرفی"]
+      }","${modifiedData["میانگین توان مصرفی"]}","${modifiedData["مصرف"]}"`;
+    } else {
+      return `"${formatTime(item.hour)} > ${
+        item.power + "W"
+      }","\n","\n","\n","\n","\n"`;
+    }
+  });
+
+  // Add headers to the CSV string
+  csvRows.unshift(
+    '"مصرف ساعتی","تاریخ","کمترین توان مصرفی","بیشترین توان مصرفی","میانگین توان مصرفی","مصرف"'
+  ); // Header for keys and values
+  const csv = csvRows.join("\n");
+
+  // Combine all rows into a single CSV string
+  downloadCsv(csv, fileName);
+};
+
+function modifyKeys(data) {
+  return {
+    "کمترین توان مصرفی": Math.floor(data.min_power) + 'W',
+    "بیشترین توان مصرفی": Math.floor(data.max_power) + 'W',
+    "میانگین توان مصرفی": Math.floor(data.avg_power) + 'W',
+    مصرف: Math.floor(data.energy) + 'Wh',
+    تاریخ: transPerDate(data.date),
+    "مصرف ساعتی": data.powers.map((item) => ({
+      power: Math.floor(item.power),
+      hour: item.hour,
+    })),
+  };
+}
+
+function downloadCsv(csvData, fileName = "data.csv") {
+  const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}

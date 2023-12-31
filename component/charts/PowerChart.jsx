@@ -9,8 +9,10 @@ import {
 } from "./utils/FormatPersianTime";
 import translateDate, { transPerDate } from "./utils/TranslateToPersian";
 import { Datepicker } from "flowbite-react";
-import { exportAsImage } from "./utils/DownloadChart";
-import jsPDF from "jspdf";
+import { exportAsImage, exportAsCSV } from "./utils/DownloadChart";
+// import jsPDF from "jspdf";
+
+let csvToDownload = {};
 
 export default function PowerChart() {
   const today = new Date();
@@ -582,20 +584,13 @@ export default function PowerChart() {
             </div>
             <button
               // onClick={() => {
-              //   chart.dataURI().then(({ imgURI, blob }) => {
-              //     const pdf = new jsPDF();
-              //     pdf.addImage(imgURI, "PNG", 0, 0);
-              //     pdf.save("pdf-chart.pdf");
-              //   });
+              //   exportAsImage(
+              //     divRef.current,
+              //     `گزارش توان مصرفی ${transPerDate(chartDate)}`
+              //   );
               // }}
-              onClick={() => {
-                exportAsImage(
-                  divRef.current,
-                  `گزارش توان مصرفی ${transPerDate(chartDate)}`
-                );
-              }}
               id="exportOptionsButton"
-              // data-dropdown-toggle="exportOptions"
+              data-dropdown-toggle="exportOptions"
               className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
             >
               دریافت گزارش
@@ -626,7 +621,10 @@ export default function PowerChart() {
                 <li>
                   <a
                     onClick={() => {
-                      document.querySelector(".exportPNG").click();
+                      exportAsImage(
+                        divRef.current,
+                        `گزارش توان مصرفی ${transPerDate(chartDate)}`
+                      );
                     }}
                     className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
@@ -636,31 +634,11 @@ export default function PowerChart() {
                 <li>
                   <a
                     onClick={() => {
-                      document.querySelector(".exportSVG").click();
-                    }}
-                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    دریافت SVG
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() => {
-                      document.querySelector(".exportCSV").click();
+                      exportAsCSV(powerData, `گزارش توان مصرفی ${transPerDate(chartDate)}` + '.csv');
                     }}
                     className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     دریافت CSV
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() => {
-                      exportAsImage(divRef.current, "123");
-                    }}
-                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    دریافت CSV2
                   </a>
                 </li>
               </ul>

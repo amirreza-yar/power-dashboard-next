@@ -1,3 +1,5 @@
+import { toPersianNumeral } from "./FormatPersianTime";
+
 const createPowerChart = (currentData, timeData) => {
   const options = {
     chart: {
@@ -135,8 +137,8 @@ export function loadPowerChart(currentData, timeData, chart_id) {
 
 const createPieChart = () => {
   const options = {
-    series: [35.1, 23.5, 2.4, 5.4],
-    colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
+    series: [0, 0, 0],
+    colors: ["#1C64F2", "#FDBA8C", "#16BDCA"],
     chart: {
       height: 320,
       width: "100%",
@@ -153,28 +155,25 @@ const createPieChart = () => {
             show: true,
             name: {
               show: true,
-              fontFamily: "Inter, sans-serif",
+              fontFamily: "iranyekan, sans-serif",
               offsetY: 20,
             },
             total: {
               showAlways: true,
               show: true,
-              label: "Unique visitors",
-              fontFamily: "Inter, sans-serif",
+              label: "مصرف",
+              fontFamily: "iranyekan, sans-serif",
               formatter: function (w) {
                 const sum = w.globals.seriesTotals.reduce((a, b) => {
                   return a + b;
                 }, 0);
-                return `${sum}k`;
+                return `${toPersianNumeral(Math.floor(sum))}wh`;
               },
             },
             value: {
               show: true,
-              fontFamily: "Inter, sans-serif",
+              fontFamily: "iranyekan, sans-serif",
               offsetY: -20,
-              formatter: function (value) {
-                return value + "k";
-              },
             },
           },
           size: "80%",
@@ -186,25 +185,38 @@ const createPieChart = () => {
         top: -2,
       },
     },
-    labels: ["Direct", "Sponsor", "Affiliate", "Email marketing"],
+    labels: ["مصرف پرباری", "مصرف میان‌باری", "مصرف کم‌باری"],
+    fontFamily: "iranyekan, sans-serif",
+    style: {
+      fontFamily: "iranyekan, sans-serif",
+    },
     dataLabels: {
       enabled: false,
     },
     legend: {
       position: "bottom",
-      fontFamily: "Inter, sans-serif",
+      fontFamily: "iranyekan, sans-serif",
     },
     yaxis: {
       labels: {
+        style: {
+          fontWeight: 400,
+          fontFamily: "iranyekan, sans-serif",
+        },
         formatter: function (value) {
-          return value + "k";
+          return toPersianNumeral(Math.floor(value)) + "wh";
         },
       },
     },
     xaxis: {
       labels: {
+        fontFamily: "iranyekan, sans-serif",
+        style: {
+          fontWeight: 400,
+          fontFamily: "iranyekan, sans-serif",
+        },
         formatter: function (value) {
-          return value + "k";
+          return toPersianNumeral(Math.floor(value)) + "wh";
         },
       },
       axisTicks: {
@@ -216,16 +228,16 @@ const createPieChart = () => {
     },
   };
 
-  const chart = new ApexCharts(
-    document.getElementById("pie-chart"),
-    options
-  );
+  const chart = new ApexCharts(document.getElementById("pie-chart"), options);
+
+  // chart.render();
   return chart;
 };
 
 export function loadPieChart(min_data, max_data) {
   if (typeof ApexCharts !== "undefined") {
-    return createColChart(min_data, max_data);
+    console.log("2 Pie chart running!");
+    return createPieChart();
   } else {
     const script = document.createElement("script");
     script.src =

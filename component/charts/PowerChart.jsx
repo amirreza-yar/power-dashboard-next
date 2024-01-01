@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Spinner, theme } from "flowbite-react";
 import { loadPowerChart } from "./utils/LoadCharts";
+import PieChart from "./PiePowerChart";
 import {
   formatTime,
   formatDate,
@@ -10,6 +11,7 @@ import {
 import translateDate, { transPerDate } from "./utils/TranslateToPersian";
 import { Datepicker } from "flowbite-react";
 import { exportAsImage, exportAsCSV } from "./utils/DownloadChart";
+
 // import jsPDF from "jspdf";
 
 let csvToDownload = {};
@@ -132,6 +134,7 @@ export default function PowerChart() {
       };
 
       setLoading(false);
+      // console.log(chartDate);
 
       chart.updateOptions({
         series: [
@@ -142,7 +145,7 @@ export default function PowerChart() {
             style: {
               fontFamily: "iranyekan, sans-serif",
               fill:
-                powerData.avg_power >= maxAllowedCons ? "#ff6262" : "#65ff62",
+                powerData.avg_power >= maxAllowedCons ? "#ff6262" : "#1adb51",
               cssClass: "font-bold",
             },
           },
@@ -153,9 +156,9 @@ export default function PowerChart() {
             opacityFrom: 0.55,
             opacityTo: 0,
             shade:
-              powerData.avg_power >= maxAllowedCons ? "#f21c1c" : "#1cf26e",
+              powerData.avg_power >= maxAllowedCons ? "#f21c1c" : "#1adb51",
             gradientToColors:
-              powerData.avg_power >= maxAllowedCons ? ["#f21c1c"] : ["#1cf26e"],
+              powerData.avg_power >= maxAllowedCons ? ["#f21c1c"] : ["#1adb51"],
           },
         },
         xaxis: {
@@ -234,7 +237,7 @@ export default function PowerChart() {
               strokeDashArray: 0.8,
               borderWidth: 4,
               borderColor:
-                powerData.avg_power >= maxAllowedCons ? "#f74848" : "#80ed5f",
+                powerData.avg_power >= maxAllowedCons ? "#f74848" : "#1adb51",
               label: {
                 offsetY:
                   Math.floor(maxAllowedCons) >=
@@ -247,7 +250,7 @@ export default function PowerChart() {
                   background:
                     powerData.avg_power >= maxAllowedCons
                       ? "#f74848"
-                      : "#80ed5f",
+                      : "#1adb51",
                 },
                 text: `میانگین توان مصرفی ${toPersianNumeral(
                   Math.floor(powerData["avg_power"])
@@ -646,6 +649,7 @@ export default function PowerChart() {
           </div>
         </div>
       </div>
+      <PieChart chartDate={chartDate} powers={powerData?.powers} />
     </>
   );
 }

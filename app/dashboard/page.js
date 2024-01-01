@@ -64,7 +64,7 @@ export default function Dashboard() {
               className="flex items-center justify-between sm:mr-4 mr-2"
             >
               <img
-                src="/images/logo.svg"
+                src="/rcpss.png"
                 className="ml-3 sm:h-8 h-6 mr-2"
                 alt="Flowbite Logo"
               />

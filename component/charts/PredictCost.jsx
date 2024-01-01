@@ -37,8 +37,6 @@ export default function PredictCost({ changeRate, energy }) {
         radialChart.render();
         // document.querySelector('.apexcharts-menu-icon').classList.add('hidden');
       }
-      console.log("change rate...");
-      console.log(Math.abs(changeRate));
       radialChart.updateOptions({
         series: [Math.abs(changeRate)],
         colors: [changeRate <= -15 ? "#16BDCA" : (changeRate > 0 ? "#fa3737" : "#FDBA8C")],
@@ -51,6 +49,7 @@ export default function PredictCost({ changeRate, energy }) {
             },
           },
         },
+        labels: [changeRate <= -15 ? "مصرف پایین" : (changeRate > 0 ? "مصرف زیاد" : "مصرف معمول")],
       });
 
       setLoading(false);
@@ -77,7 +76,7 @@ export default function PredictCost({ changeRate, energy }) {
             )}
           </p>
           <svg
-            data-popover-target="chart-info"
+            data-popover-target="radial-chart-info"
             data-popover-placement="bottom"
             className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer mr-1"
             aria-hidden="true"
@@ -89,14 +88,14 @@ export default function PredictCost({ changeRate, energy }) {
           </svg>
           <div
             data-popover=""
-            id="chart-info"
+            id="radial-chart-info"
             role="tooltip"
             style={{ width: "200px" }}
             className="absolute z-50 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
           >
             <div className="p-2 space-y-2">
               <h3 className="font-semibold text-gray-900 dark:text-white">
-                میزان مصرف شما
+                تحلیل مصرف شما
               </h3>
               <p>
                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با

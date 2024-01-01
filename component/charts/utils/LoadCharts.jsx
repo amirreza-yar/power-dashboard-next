@@ -153,8 +153,15 @@ const createPieChart = () => {
         donut: {
           labels: {
             show: true,
+            fill: "#627bff",
+            style: {
+              fontFamily: "iranyekan, sans-serif",
+              fill: "#627bff",
+              cssClass: "rtl",
+            },
             name: {
               show: true,
+              color: "#1C6AA2",
               fontFamily: "iranyekan, sans-serif",
               offsetY: 20,
             },
@@ -172,6 +179,7 @@ const createPieChart = () => {
             },
             value: {
               show: true,
+              color: "#16BDCA",
               fontFamily: "iranyekan, sans-serif",
               offsetY: -20,
             },
@@ -249,18 +257,66 @@ export function loadPieChart(min_data, max_data) {
   }
 }
 
+const createRadialChart = () => {
+  const options = {
+    series: [20],
+    chart: {
+      height: 350,
+      type: "radialBar",
+      fontFamily: "iranyekan, sans-serif",
+    },
+    plotOptions: {
+      radialBar: {
+        dataLabels: {
+          name: {
+            fontSize: "16px",
+          },
+          value: {
+            fontSize: "22px",
+            // fontFamily: "iranyekan, sans-serif",
+            color: "#BBB",
+            formatter: function (val) {
+              return toPersianNumeral(val) + "٪";
+            },
+          },
+        },
+      },
+    },
+    stroke: {
+      dashArray: 0,
+    },
+    labels: ["خوش مصرفی"],
+  };
+
+  const chart = new ApexCharts(
+    document.getElementById("radial-chart"),
+    options
+  );
+
+  return chart;
+};
+
+export function loadRadialChart() {
+  if (typeof ApexCharts !== "undefined") {
+    return createRadialChart();
+  } else {
+    const script = document.createElement("script");
+    script.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js";
+    script.async = true;
+    document.head.appendChild(script);
+    script.onload = createColChart(min_data, max_data);
+    // return createChart(currentData, timeData, chart_id);
+  }
+}
+
 const createColChart = () => {
   const options = {
     colors: ["#1A56DB", "#FDBA8C"],
     series: [
       {
-        name: "بیشترین مصرف",
+        name: "مصرف",
         color: "#1A56DB",
-        data: [0],
-      },
-      {
-        name: "کمترین مصرف",
-        color: "#FDBA8C",
         data: [0],
       },
     ],

@@ -72,7 +72,7 @@ export default function PowerChart() {
               colors: ["#7769f5", "#7769f5"],
             },
             formatter: (val) => {
-              return toPersianNumeral(Math.round(val)) + "w";
+              return toPersianNumeral(Math.round(val)) + "Wh";
             },
           },
           axisBorder: {
@@ -104,7 +104,7 @@ export default function PowerChart() {
 
   return (
     <>
-      <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-4">
+      <div className="col-6 w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-4">
         <div ref={chartRef}>
           <div className="flex justify-between">
             <div>

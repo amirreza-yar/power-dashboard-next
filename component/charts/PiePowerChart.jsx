@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Spinner, theme } from "flowbite-react";
 import { loadPieChart } from "./utils/LoadCharts";
 import { transPerDate } from "./utils/TranslateToPersian";
+import translateDate from "./utils/TranslateToPersian";
 import {
   formatTime,
   formatDate,
@@ -84,26 +85,8 @@ export default function PieChart({ chartDate, powers }) {
       powers !== null &&
       powers !== undefined
     ) {
-      const lowRange = powers.filter((entry) => {
-        const hour = new Date(entry.hour).getHours();
-        return hour >= 0 && hour < 8;
-      });
 
-      const midRange = powers.filter((entry) => {
-        const hour = new Date(entry.hour).getHours();
-        return hour >= 7 && hour < 19;
-      });
-
-      const highRange = powers.filter((entry) => {
-        const hour = new Date(entry.hour).getHours();
-        return hour >= 19 && hour < 24;
-      });
-
-      console.log(powers);
-
-      const energies = calculateEnergy(powers);
-      const energyRanges = calculateSumOfEnergies(energies);
-      console.log(energyRanges);
+      const energyRanges = calculateSumOfEnergies(calculateEnergy(powers));
 
       try {
         pieChart.render();
@@ -121,6 +104,29 @@ export default function PieChart({ chartDate, powers }) {
           energyRanges.secondInterval,
           energyRanges.thirdInterval,
         ],
+        noData: {
+          text: `داده‌ای برای ${translateDate(chartDate)} وجود ندارد`,
+          align: "center",
+          verticalAlign: "middle",
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            color: "#6875f5",
+            fontSize: "14px",
+            fontFamily: undefined,
+          },
+        },
+        plotOptions: {
+      pie: {
+        donut: {
+          labels: {
+            total: {
+              label: `مصرف ${translateDate(chartDate)}`,
+            },
+          },
+        },
+      },
+    },
       });
 
       setLoading(false);
@@ -129,7 +135,7 @@ export default function PieChart({ chartDate, powers }) {
 
   return (
     <>
-      <div className="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-5">
+      <div className="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-5">
         <div className="flex justify-between mb-3">
           <div className="flex justify-center items-center">
             <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white p-1">

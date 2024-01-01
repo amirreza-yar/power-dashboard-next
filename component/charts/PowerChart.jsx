@@ -11,6 +11,7 @@ import {
 import translateDate, { transPerDate } from "./utils/TranslateToPersian";
 import { Datepicker } from "flowbite-react";
 import { exportAsImage, exportAsCSV } from "./utils/DownloadChart";
+import PredictCost from "./PredictCost";
 
 // import jsPDF from "jspdf";
 
@@ -637,7 +638,10 @@ export default function PowerChart() {
                 <li>
                   <a
                     onClick={() => {
-                      exportAsCSV(powerData, `گزارش توان مصرفی ${transPerDate(chartDate)}` + '.csv');
+                      exportAsCSV(
+                        powerData,
+                        `گزارش توان مصرفی ${transPerDate(chartDate)}` + ".csv"
+                      );
                     }}
                     className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
@@ -649,7 +653,23 @@ export default function PowerChart() {
           </div>
         </div>
       </div>
-      <PieChart chartDate={chartDate} powers={powerData?.powers} />
+      <div className="pie-grid">
+        <PieChart
+          chartDate={chartDate}
+          powers={powerData?.powers === null ? [] : powerData?.powers}
+        />
+        <PredictCost
+          changeRate={
+            powerData !== null
+              ? Math.floor(
+                  ((powerData["avg_power"] - maxAllowedCons) / maxAllowedCons) *
+                    100
+                )
+              : 0
+          }
+          energy={powerData?.energy !== null ? powerData?.energy : 0}
+        />
+      </div>
     </>
   );
 }

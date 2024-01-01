@@ -61,3 +61,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pie-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .pie-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+#SvgjsText1019 {
+  /* Your CSS styles here */
+  font-family: "iranyekan, sans-serif" !important;
+  color: red !important;
+  /* Add any other styles you want */
+}

@@ -15,8 +15,6 @@ import PredictCost from "./PredictCost";
 
 // import jsPDF from "jspdf";
 
-let csvToDownload = {};
-
 export default function PowerChart() {
   const today = new Date();
 
@@ -69,8 +67,6 @@ export default function PowerChart() {
       setMaxAllowedCons(450);
     }
     if (chartDate !== null && powerData === null) {
-      // const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
-      // if (dateFormatRegex.test(chartDate))
       loadChart();
     }
     if (
@@ -79,12 +75,6 @@ export default function PowerChart() {
       maxAllowedCons !== null &&
       maxAllowedCons !== null
     ) {
-      // console.log(powerData["max_power"]);
-      // console.log(
-      //   Math.floor(
-      //     ((powerData["avg_power"] - maxAllowedCons) / maxAllowedCons) * 100
-      //   )
-      // );
 
       setChangeRate(
         Math.floor(
@@ -108,31 +98,6 @@ export default function PowerChart() {
         chart.render();
         // document.querySelector('.apexcharts-menu-icon').classList.add('hidden');
       }
-
-      const captureScreenshot = () => {
-        const divElement = divRef.current;
-
-        if (divElement) {
-          const canvas = document.createElement("canvas");
-          canvas.width = divElement.offsetWidth;
-          canvas.height = divElement.offsetHeight;
-
-          const ctx = canvas.getContext("2d");
-          ctx.drawWindow(
-            window,
-            divElement.offsetLeft,
-            divElement.offsetTop,
-            divElement.offsetWidth,
-            divElement.offsetHeight,
-            "rgb(255,255,255)"
-          );
-
-          const link = document.createElement("a");
-          link.download = "screenshot.png";
-          link.href = canvas.toDataURL();
-          link.click();
-        }
-      };
 
       setLoading(false);
       // console.log(chartDate);
@@ -211,8 +176,8 @@ export default function PowerChart() {
           yaxis: [
             {
               y: maxAllowedCons,
-              strokeDashArray: 0.8,
-              borderWidth: 4,
+              strokeDashArray: 0.5,
+              borderWidth: 2,
               borderColor: "#6875f5",
               label: {
                 offsetY:
@@ -235,8 +200,8 @@ export default function PowerChart() {
                 powerData["avg_power"] !== null
                   ? powerData["avg_power"]
                   : 99999999999,
-              strokeDashArray: 0.8,
-              borderWidth: 4,
+              strokeDashArray: 0.5,
+              borderWidth: 2,
               borderColor:
                 powerData.avg_power >= maxAllowedCons ? "#f74848" : "#1adb51",
               label: {

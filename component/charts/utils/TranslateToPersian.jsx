@@ -44,6 +44,8 @@ const translateDate = (date) => {
     const parts = persianDate.split(" ");
     const result = parts.slice(0, 2).join(" ");
     return result;
+  } else if (date == "realtime") {
+    return "لحظه‌ای"
   }
 };
 

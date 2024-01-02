@@ -5,15 +5,13 @@
   font-family: iranyekan;
   font-style: normal;
   font-weight: 400;
-  src: local("IRANYekan"),
-    url("./fonts/Qs_Iranyekan.woff") format("woff");
+  src: local("IRANYekan"), url("./fonts/Qs_Iranyekan.woff") format("woff");
 }
 @font-face {
   font-family: iranyekan;
   font-style: thin;
   font-weight: 100;
-  src: local("IRANYekan"),
-    url("./fonts/Qs_Iranyekan\ thin.woff") format("woff");
+  src: local("IRANYekan"), url("./fonts/Qs_Iranyekan\ thin.woff") format("woff");
 }
 @font-face {
   font-family: iranyekan;
@@ -33,8 +31,7 @@
   font-family: iranyekan;
   font-style: bold;
   font-weight: 700;
-  src: local("IRANYekan"),
-    url("./fonts/Qs_Iranyekan\ bold.woff") format("woff");
+  src: local("IRANYekan"), url("./fonts/Qs_Iranyekan\ bold.woff") format("woff");
 }
 @font-face {
   font-family: iranyekan;
@@ -80,4 +77,20 @@
   font-family: "iranyekan, sans-serif" !important;
   color: red !important;
   /* Add any other styles you want */
+}
+
+.animation-bounce {
+  animation: bounce 1s infinite;
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(-25%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
 }

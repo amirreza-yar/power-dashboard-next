@@ -50,7 +50,9 @@ export default function PowerChart() {
 
   const loadChart = async () => {
     try {
-      let apiUrl = `http://rcpss-sutech.ir/django/daily-stat/?date=${chartDate}`;
+      let apiUrl = `http://rcpss-sutech.ir/django/${
+        chartDate === "realtime" ? "realtime/" : `daily-stat/?date=${chartDate}`
+      }`;
 
       const response = await fetch(apiUrl);
       const data = await response.json();
@@ -62,11 +64,31 @@ export default function PowerChart() {
   };
 
   useEffect(() => {
+    // Your code related to chartDate
+    // ...
+
+    // If chartDate is "realtime," clear powerData every 30 seconds
+    if (chartDate === "realtime") {
+      const intervalId = setInterval(() => {
+        setPowerData(null);
+        console.log("Power data cleared...");
+      }, 5000);
+
+      // Cleanup the interval when the component unmounts or when chartDate changes
+      return () => clearInterval(intervalId);
+    }
+
+    // Clean up the interval when chartDate is not "realtime"
+    return () => {};
+  }, [chartDate]);
+
+  useEffect(() => {
     if (chart === null) {
       setChart(loadPowerChart([0], [0]));
       setMaxAllowedCons(450);
     }
     if (chartDate !== null && powerData === null) {
+      console.log("Data refreshed >>>");
       loadChart();
     }
     if (
@@ -75,7 +97,6 @@ export default function PowerChart() {
       maxAllowedCons !== null &&
       maxAllowedCons !== null
     ) {
-
       setChangeRate(
         Math.floor(
           ((powerData["avg_power"] - maxAllowedCons) / maxAllowedCons) * 100
@@ -89,6 +110,8 @@ export default function PowerChart() {
         currentData = powerData.powers.map((item) => Math.floor(item.power));
         timeData = powerData.powers.map((item) => formatTime(item.hour));
       }
+
+      console.log(currentData);
 
       try {
         chart.render();
@@ -105,7 +128,8 @@ export default function PowerChart() {
       chart.updateOptions({
         series: [
           {
-            data: currentData,
+            data:
+              chartDate !== "realtime" ? currentData : currentData.reverse(),
             color:
               powerData.avg_power >= maxAllowedCons ? "#db1a1a" : "#1adb51",
             style: {
@@ -129,7 +153,7 @@ export default function PowerChart() {
         },
         xaxis: {
           tickAmount: 12,
-          categories: timeData,
+          categories: chartDate !== "realtime" ? timeData : timeData.reverse(),
           labels: {
             style: {
               colors: Array(timeData.length).fill("#6875f5"),
@@ -301,15 +325,38 @@ export default function PowerChart() {
     }
   }, [powerData]);
 
+  const pingAnimation = {
+    animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+    "@keyframes pulse": {
+      "0%, 100%": {
+        opacity: 1,
+      },
+      "50%": {
+        opacity: 0.5,
+      },
+    },
+  };
+
   return (
     <>
       <div className="w-full max-h-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <div ref={divRef}>
           <div className="flex justify-between">
             <div>
-              <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
-                {toPersianNumeral(Math.floor(powerData?.energy))}
-                <span className="text-base pl-2">Wh</span>
+              <h5 className="flex items-center leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2 font-bold">
+                {chartDate !== "realtime" ? (
+                  toPersianNumeral(Math.floor(powerData?.energy))
+                ) : (
+                  <>
+                    <span
+                      class="w-3 h-3 me-3 bg-green-500 rounded-full ml-2 animation-bounce"
+                    ></span>
+                    آنلاین
+                  </>
+                )}
+                <span className="text-base pl-2">
+                  {chartDate !== "realtime" && "Wh"}
+                </span>
               </h5>
               <p className="text-base font-normal text-gray-500 dark:text-gray-400">
                 توان مصرفی {translateDate(chartDate)}
@@ -484,6 +531,18 @@ export default function PowerChart() {
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="LineDefaultButton"
               >
+                <li className={chartDate == "realtime" ? "hidden" : ""}>
+                  <a
+                    onClick={() => {
+                      setChartDate("realtime");
+                      setPowerData(null);
+                      setLoading(2);
+                    }}
+                    className="cursor-pointer block cursor-point px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    لحظه‌ای
+                  </a>
+                </li>
                 <li className={chartDate == "today" ? "hidden" : ""}>
                   <a
                     onClick={() => {
@@ -618,23 +677,26 @@ export default function PowerChart() {
           </div>
         </div>
       </div>
-      <div className="pie-grid">
-        <PieChart
-          chartDate={chartDate}
-          powers={powerData?.powers === null ? [] : powerData?.powers}
-        />
-        <PredictCost
-          changeRate={
-            powerData !== null
-              ? Math.floor(
-                  ((powerData["avg_power"] - maxAllowedCons) / maxAllowedCons) *
-                    100
-                )
-              : 0
-          }
-          energy={powerData?.energy !== null ? powerData?.energy : 0}
-        />
-      </div>
+      {chartDate !== "realtime" && (
+        <div className="pie-grid">
+          <PieChart
+            chartDate={chartDate}
+            powers={powerData?.powers === null ? [] : powerData?.powers}
+          />
+          <PredictCost
+            changeRate={
+              powerData !== null
+                ? Math.floor(
+                    ((powerData["avg_power"] - maxAllowedCons) /
+                      maxAllowedCons) *
+                      100
+                  )
+                : 0
+            }
+            energy={powerData?.energy !== null ? powerData?.energy : 0}
+          />
+        </div>
+      )}
     </>
   );
 }

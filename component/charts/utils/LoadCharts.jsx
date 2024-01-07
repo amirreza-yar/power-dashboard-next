@@ -205,35 +205,35 @@ const createPieChart = () => {
       position: "bottom",
       fontFamily: "iranyekan, sans-serif",
     },
-    yaxis: {
-      labels: {
-        style: {
-          fontWeight: 400,
-          fontFamily: "iranyekan, sans-serif",
-        },
-        formatter: function (value) {
-          return toPersianNumeral(Math.floor(value)) + "wh";
-        },
-      },
-    },
-    xaxis: {
-      labels: {
-        fontFamily: "iranyekan, sans-serif",
-        style: {
-          fontWeight: 400,
-          fontFamily: "iranyekan, sans-serif",
-        },
-        formatter: function (value) {
-          return toPersianNumeral(Math.floor(value)) + "wh";
-        },
-      },
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-    },
+    // yaxis: {
+    //   labels: {
+    //     style: {
+    //       fontWeight: 400,
+    //       fontFamily: "iranyekan, sans-serif",
+    //     },
+    //     formatter: function (value) {
+    //       return toPersianNumeral(Math.floor(value)) + "wh";
+    //     },
+    //   },
+    // },
+    // xaxis: {
+    //   labels: {
+    //     fontFamily: "iranyekan, sans-serif",
+    //     style: {
+    //       fontWeight: 400,
+    //       fontFamily: "iranyekan, sans-serif",
+    //     },
+    //     formatter: function (value) {
+    //       return toPersianNumeral(Math.floor(value)) + "wh";
+    //     },
+    //   },
+    //   axisTicks: {
+    //     show: false,
+    //   },
+    //   axisBorder: {
+    //     show: false,
+    //   },
+    // },
   };
 
   const chart = new ApexCharts(document.getElementById("pie-chart"), options);

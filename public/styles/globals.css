@@ -94,3 +94,37 @@
     }
   }
 }
+
+.circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+}
+
+.circle {
+  width: 150px; /* Adjust as per your requirement */
+  height: 150px; /* Adjust as per your requirement */
+  border-radius: 50%;
+  background-color: #3498db; /* You can change the color */
+  position: relative;
+}
+
+.text1, .text2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff; /* You can change the text color */
+  text-align: center;
+}
+
+.text1 {
+  font-size: 24px;
+  /* z-index: 1; */
+}
+
+.text2 {
+  font-size: 18px;
+  /* z-index: 0; */
+}

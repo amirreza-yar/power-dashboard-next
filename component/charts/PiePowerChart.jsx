@@ -100,9 +100,9 @@ export default function PieChart({ chartDate, powers }) {
 
       pieChart.updateOptions({
         series: [
-          energyRanges.firstInterval,
-          energyRanges.secondInterval,
-          energyRanges.thirdInterval,
+          Math.floor(energyRanges.firstInterval),
+          Math.floor(energyRanges.secondInterval),
+          Math.floor(energyRanges.thirdInterval),
         ],
         noData: {
           text: `داده‌ای برای ${translateDate(chartDate)} وجود ندارد`,
@@ -208,7 +208,7 @@ export default function PieChart({ chartDate, powers }) {
         )}
 
         {/* Donut Chart */}
-        <div className="py-6 mt-5" id="pie-chart" />
+        <div className="py-6 mt-5" id="pie-chart" dir="rtl" fontFamily="iranyekan, sans-serif" />
       </div>
     </>
   );

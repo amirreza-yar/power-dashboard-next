@@ -38,6 +38,7 @@ export default function PowerChart() {
   const [chartDate, setChartDate] = useState(persianToday);
   const [maxAllowedCons, setMaxAllowedCons] = useState();
   const [changeRate, setChangeRate] = useState(0);
+  const [minMaxData, setMinMaxData] = useState({});
   const divRef = useRef(null);
 
   Array.prototype.max = function () {
@@ -109,6 +110,18 @@ export default function PowerChart() {
       if (powerData.powers !== null) {
         currentData = powerData.powers.map((item) => Math.floor(item.power));
         timeData = powerData.powers.map((item) => formatTime(item.hour));
+        setMinMaxData({
+          minPower: Math.floor(currentData.min()),
+          minHour:
+            timeData[
+              currentData.findIndex((entery) => entery === currentData.min())
+            ],
+          maxPower: Math.floor(currentData.max()),
+          maxHour:
+            timeData[
+              currentData.findIndex((entery) => entery === currentData.max())
+            ],
+        });
       }
 
       console.log(currentData);
@@ -348,9 +361,7 @@ export default function PowerChart() {
                   toPersianNumeral(Math.floor(powerData?.energy))
                 ) : (
                   <>
-                    <span
-                      class="w-3 h-3 me-3 bg-green-500 rounded-full ml-2 animation-bounce"
-                    ></span>
+                    <span class="w-3 h-3 me-3 bg-green-500 rounded-full ml-2 animation-bounce"></span>
                     آنلاین
                   </>
                 )}
@@ -694,6 +705,8 @@ export default function PowerChart() {
                 : 0
             }
             energy={powerData?.energy !== null ? powerData?.energy : 0}
+            chartDate={chartDate}
+            minMaxData={minMaxData}
           />
         </div>
       )}

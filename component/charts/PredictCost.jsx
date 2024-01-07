@@ -5,8 +5,14 @@ import { loadRadialChart } from "./utils/LoadCharts";
 import { transPerDate } from "./utils/TranslateToPersian";
 import translateDate from "./utils/TranslateToPersian";
 import { toPersianNumeral } from "./utils/FormatPersianTime";
+import NumberCounter from "./utils/NumberCounter";
 
-export default function PredictCost({ changeRate, energy }) {
+export default function PredictCost({
+  changeRate,
+  energy,
+  chartDate,
+  minMaxData,
+}) {
   const [loading, setLoading] = useState(true);
   const [radialChart, setRadialChart] = useState(null);
 
@@ -17,44 +23,6 @@ export default function PredictCost({ changeRate, energy }) {
   Array.prototype.min = function () {
     return Math.min.apply(null, this);
   };
-
-  useEffect(() => {
-    if (radialChart === null) {
-      const test = loadRadialChart();
-      console.log(test);
-      setRadialChart(loadRadialChart());
-    }
-
-    if (radialChart !== null && changeRate !== null && energy !== null) {
-      console.log("chart rendering...");
-      console.log(radialChart);
-      try {
-        radialChart.render();
-        setLoading(false);
-        // document.querySelector('.apexcharts-menu-icon').classList.add('hidden');
-      } catch (error) {
-        // console.log(error);
-        radialChart.render();
-        // document.querySelector('.apexcharts-menu-icon').classList.add('hidden');
-      }
-      radialChart.updateOptions({
-        series: [Math.abs(changeRate)],
-        colors: [changeRate <= -15 ? "#16BDCA" : (changeRate > 0 ? "#fa3737" : "#FDBA8C")],
-        plotOptions: {
-          radialBar: {
-            dataLabels: {
-              value: {
-                color: changeRate <= -15 ? "#16BDCA" : (changeRate > 0 ? "#fa3737" : "#FDBA8C"),
-              },
-            },
-          },
-        },
-        labels: [changeRate <= -15 ? "مصرف پایین" : (changeRate > 0 ? "مصرف زیاد" : "مصرف معمول")],
-      });
-
-      setLoading(false);
-    }
-  }, [radialChart, energy]);
 
   return (
     <div className="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-5">
@@ -90,19 +58,34 @@ export default function PredictCost({ changeRate, energy }) {
             data-popover=""
             id="radial-chart-info"
             role="tooltip"
-            style={{ width: "200px" }}
+            style={{ width: "250px" }}
             className="absolute z-50 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
           >
             <div className="p-2 space-y-2">
               <h3 className="font-semibold text-gray-900 dark:text-white">
-                تحلیل مصرف شما
+                تحلیل مصرف {transPerDate(chartDate)}
               </h3>
               <p>
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله
-                در ستون و سطرآنچنان که لازم است
+                کمترین مصرف {toPersianNumeral(minMaxData?.minPower) + "وات"} در
+                ساعت {minMaxData?.minHour}
+                <br />
+                بیشترین مصرف {toPersianNumeral(minMaxData?.maxPower) + "وات"} در
+                ساعت {minMaxData?.maxHour}
+                <br />
+                مشتری بر اساس تعرفه وزارت نیرو:{" "}
+                {changeRate <= -15
+                  ? "کم مصرف"
+                  : changeRate > 0
+                  ? "پر مصرف"
+                  : "مصرف مرزی"}
+                <br />
+                پتانسیل کاهش مصرف:{" "}
+                {changeRate > 0 ? toPersianNumeral(changeRate) : "-"}<br />
+                هزینه برق با آخرین تعرفه ی وزارت نیرو بر حسب مصرف در تاریخ جاری،
+                با احتساب وقوع مصارف مشابه در روز های بعد تا یکماه، تخمین زده
+                شده است. درصد قابل کاهش در هزینه در صورت رعایت حد مجاز.
               </p>
-              <a
+              {/* <a
                 href="#"
                 className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
               >
@@ -122,20 +105,38 @@ export default function PredictCost({ changeRate, energy }) {
                     d="m1 9 4-4-4-4"
                   />
                 </svg>
-              </a>
+              </a> */}
             </div>
             <div data-popper-arrow="" />
           </div>
         </div>
       </div>
       <div className="flex justify-between mb-3"></div>
-      {/* Radial Chart */}
-      <div
-        style={{ fontFamily: "iranyekan, sans-serif !important" }}
-        className="py-6"
-        id="radial-chart"
-      />
-      {/* <div className="flex justify-center">میزان خوش مصرفی</div> */}
+
+      <div className="circle-container flex-col">
+        <div
+          className="circle flex flex-col justify-center items-center transition-all duration-500"
+          style={{
+            backgroundColor:
+              changeRate <= -15
+                ? "#16BDCA"
+                : changeRate > 0
+                ? "#fa3737"
+                : "#FDBA8C",
+          }}
+        >
+          <div className="text-2xl" style={{ color: "#444" }}>
+            <NumberCounter targetNumber={Math.floor(Math.abs(changeRate))} />
+          </div>
+          <div className="" style={{ color: "#444" }}>
+            {changeRate <= -15
+              ? "کم مصرف"
+              : changeRate > 0
+              ? "پر مصرف"
+              : "مصرف مرزی"}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

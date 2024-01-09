@@ -186,6 +186,7 @@ const createPieChart = () => {
           },
           size: "80%",
         },
+        expandOnClick: false,
       },
     },
     grid: {
@@ -199,7 +200,12 @@ const createPieChart = () => {
       fontFamily: "iranyekan, sans-serif",
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
+      style: {
+        fontFamily: "iranyekan, sans-serif",
+        fontWeight: "bold",
+        // color: "#fff",
+      },
     },
     legend: {
       position: "bottom",

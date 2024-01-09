@@ -85,7 +85,6 @@ export default function PieChart({ chartDate, powers }) {
       powers !== null &&
       powers !== undefined
     ) {
-
       const energyRanges = calculateSumOfEnergies(calculateEnergy(powers));
 
       try {
@@ -117,16 +116,26 @@ export default function PieChart({ chartDate, powers }) {
           },
         },
         plotOptions: {
-      pie: {
-        donut: {
-          labels: {
-            total: {
-              label: `مصرف ${translateDate(chartDate)}`,
+          pie: {
+            donut: {
+              labels: {
+                total: {
+                  label: `مصرف ${translateDate(chartDate)}`,
+                },
+              },
             },
           },
         },
-      },
-    },
+        dataLabels: {
+          formatter: function (val, opt) {
+            return (
+              toPersianNumeral(Math.floor(val / 100 *
+              (energyRanges.firstInterval +
+                energyRanges.secondInterval +
+                energyRanges.thirdInterval))) + "wh"
+            );
+          },
+        },
       });
 
       setLoading(false);
@@ -208,7 +217,12 @@ export default function PieChart({ chartDate, powers }) {
         )}
 
         {/* Donut Chart */}
-        <div className="py-6 mt-5" id="pie-chart" dir="rtl" fontFamily="iranyekan, sans-serif" />
+        <div
+          className="py-6 mt-5"
+          id="pie-chart"
+          dir="rtl"
+          fontFamily="iranyekan, sans-serif"
+        />
       </div>
     </>
   );

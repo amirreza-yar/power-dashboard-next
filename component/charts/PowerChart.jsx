@@ -464,6 +464,8 @@ export default function PowerChart() {
                 maxDate={new Date()}
                 weekStart={0}
                 autoHide={true}
+                showClearButton={false}
+                showTodayButton={false}
                 inline
                 onSelectedDateChanged={(date) => {
                   const persianDate = date.toLocaleDateString("en-GB", {
@@ -672,12 +674,7 @@ export default function PowerChart() {
                 </li>
                 <li>
                   <a
-                    onClick={() => {
-                      exportAsCSV(
-                        powerData,
-                        `گزارش توان مصرفی ${transPerDate(chartDate)}` + ".csv"
-                      );
-                    }}
+                    href={`http://rcpss-sutech.ir/django/power-export/?date=${chartDate}`}
                     className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     دریافت CSV

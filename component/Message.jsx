@@ -53,7 +53,7 @@ const Message = () => {
       <>
         <Toast key={Date.now()} dir="ltr" duration={75} theme={theme} className="mt-2">
           <Toast.Toggle />
-          <div dir="rtl" className={`md:ml-3 md:mr-3 ml-2 mr-2 text-xs md:text-sm font-normal font-iranyekan`}>
+          <div dir="rtl" className={`ml-3 mr-3 text-xs md:text-sm font-normal font-iranyekan`}>
             {message}
           </div>
           <div
@@ -81,7 +81,7 @@ const Message = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full justify-start items-start dark:bg-gray-900 font-iranyekan fixed bottom-0 mb-6 px-6 z-50">
+      <div className="flex flex-col w-full justify-start items-start font-iranyekan fixed bottom-0 mb-6 px-6 z-50">
         {toasts.map((toast, index) => (
           <div key={index}>{toast}</div>
         ))}

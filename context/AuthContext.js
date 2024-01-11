@@ -10,9 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("Access token from cookies: " + Cookies.get("accessToken"));
     setUser(Cookies.get("accessToken"));
-    console.log(user);
   }, [user]);
 
   const login = async (uuid, password) => {
@@ -27,14 +25,13 @@ export const AuthProvider = ({ children }) => {
       Cookies.set("accessToken", access, { SameSite: "None", Secure: true });
       Cookies.set("refreshToken", refresh, { SameSite: "None", Secure: true });
 
-      console.log(`Access token: ${access}`);
       // Fetch user details or set user state based on response
       // const userDetails = await fetchUserDetails();
       // setUser(userDetails);
+      setError(null);
       setUser(access);
-      console.log("User is: " + user);
     } catch (err) {
-      setUser(null);
+      setError(err);
       setError("Login failed. Please try again.");
     }
   };

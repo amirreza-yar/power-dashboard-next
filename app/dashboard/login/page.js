@@ -24,7 +24,7 @@ async function Login() {
       logout();
       await login(uuid, password);
 
-      if (error !== null) {
+      if (error === null) {
         push("/dashboard");
         setMessage({ message: "خوش آمدید", mesStatus: "success" });
       } else {
@@ -32,7 +32,7 @@ async function Login() {
       }
     } catch (err) {
       setMessage({ message: "ورود ناموفق", mesStatus: "error" });
-      console.error(err.message);
+      console.error(error);
     }
   };
 

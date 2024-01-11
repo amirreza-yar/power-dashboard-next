@@ -53,7 +53,7 @@ const Message = () => {
       <>
         <Toast key={Date.now()} dir="ltr" duration={75} theme={theme}>
           <Toast.Toggle />
-          <div className={`ml-3 mr-3 text-sm font-normal font-iranyekan`}>
+          <div dir="rtl" className={`ml-3 mr-3 text-sm font-normal font-iranyekan`}>
             {message}
           </div>
           <div

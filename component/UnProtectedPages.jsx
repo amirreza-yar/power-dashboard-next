@@ -5,19 +5,18 @@ import { redirect } from "next/navigation";
 import { useAuth } from "@context/AuthContext";
 import { useMessage } from "@context/MessageContext";
 
-const ProtectedRoute = ({ children }) => {
+const UnProtectedRoute = ({ children }) => {
   const { user, error } = useAuth();
   const { push } = useRouter();
   const { setMessage } = useMessage();
 
   useEffect(() => {
-    if (!user) {
-      setMessage({ message: "لطفا ابتدا وارد حساب خود شوید", mesStatus: "info" });
-      redirect("/dashboard/login");
+    if (user) {
+      push("/dashboard");
     }
   }, [user]);
 
-  return <>{user ? children : null}</>;
+  return <>{user ? null : children}</>;
 };
 
-export default ProtectedRoute;
+export default UnProtectedRoute;

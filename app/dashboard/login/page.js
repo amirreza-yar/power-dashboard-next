@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { useAuth } from "@context/AuthContext";
 import { useMessage } from "@context/MessageContext";
+import UnProtectedRoute from "@component/UnProtectedPages";
 
 async function Login() {
   const { login, error, logout } = useAuth();
@@ -25,19 +26,19 @@ async function Login() {
       await login(uuid, password);
 
       if (error === null) {
-        push("/dashboard");
         setMessage({ message: "خوش آمدید", mesStatus: "success" });
+        redirect("/dashboard");
       } else {
+        setMessage({ message: "ورود شما ناموفق بود. لطفا مجددا تلاش نمایید", mesStatus: "error" });
+        console.error(error);
         throw new Error("ورود ناموفق")
       }
     } catch (err) {
-      setMessage({ message: "ورود ناموفق", mesStatus: "error" });
-      console.error(error);
     }
   };
 
   return (
-    <>
+    <UnProtectedRoute>
       <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 font-iranyekan">
         <main className="bg-gray-50 dark:bg-gray-900">
           <div className="flex flex-col justify-center items-center py-8 px-6 mx-auto md:h-screen">
@@ -184,7 +185,7 @@ async function Login() {
           </div>
         </main>
       </div>
-    </>
+    </UnProtectedRoute>
   );
 }
 

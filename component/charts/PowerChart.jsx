@@ -12,6 +12,7 @@ import translateDate, { transPerDate } from "./utils/TranslateToPersian";
 import { Datepicker } from "flowbite-react";
 import { exportAsImage, exportAsCSV } from "./utils/DownloadChart";
 import PredictCost from "./PredictCost";
+import Dropdown from "@component/helpers/Dropdown";
 
 // import jsPDF from "jspdf";
 
@@ -407,12 +408,11 @@ export default function PowerChart() {
                 </svg>
                 {toPersianNumeral(Math.abs(changeRate))} ٪
               </div>
-              <button
+              <Dropdown
                 type="button"
-                id="datePickerInlineButton"
-                data-dropdown-toggle="datePickerInline"
-                data-dropdown-placement="right-end"
-                className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-0 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                buttonId="datePickerInlineButton"
+                buttonClassName={`text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-0 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700`}
+                elementId="datePickerInline"
               >
                 <svg
                   stroke="currentColor"
@@ -431,36 +431,14 @@ export default function PowerChart() {
                     clipRule="evenodd"
                   />
                 </svg>
-              </button>
+              </Dropdown>
             </div>
 
-            {/* <div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-red-500 dark:text-red-500 text-center font-bold">
-            ۱۲٪
-            <svg
-              className="w-3 h-3 ms-1"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 10 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13V1m0 0L1 5m4-4 4 4"
-              />
-            </svg>
-          </div> */}
-            <div id="datePickerInline" className="hidden z-50" dir="ltr">
+            <div id="datePickerInline" className="z-10 hidden absolute" style={{left: "90px"}} dir="ltr">
               <Datepicker
-                // theme={datePickerTheme}
-                // dir="rtl"
-
                 language="fa-IR"
                 labelTodayButton="امروز"
                 labelClearButton="پاک کردن"
-                // maxDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                 maxDate={new Date()}
                 weekStart={0}
                 autoHide={true}
@@ -475,10 +453,7 @@ export default function PowerChart() {
                     .split("/")
                     .reverse()
                     .join("-");
-                  // const formattedDate = `${year}-${month}-${day}`;
                   document.getElementById("datePickerInlineButton").click();
-                  // datePickerInline.classList.remove('block');
-                  // datePickerInline.classList.add('hidden');
                   setChartDate(formattedDate);
                   setPowerData(null);
                   setLoading(2);
@@ -499,11 +474,6 @@ export default function PowerChart() {
               </div>
             </div>
           )}
-          {/* <div className="absolute z-50">
-          <div className="flex justify-center items-center pt-5">
-            <span dir="rtl">دیتایی برای نمایش وجود ندارد!</span>
-          </div>
-        </div> */}
           <div id="area-chart" dir="ltr"></div>
         </div>
 
@@ -511,11 +481,10 @@ export default function PowerChart() {
           <div className="flex justify-between items-center pt-5">
             {/* <Datepicker language="fa-IR" labelTodayButton="امروز" labelClearButton="پاک کردن" maxDate={new Date()} weekStart={0} /> */}
             {/* Button */}
-            <button
-              id="LineDefaultButton"
-              data-dropdown-toggle="lastDaysLine"
-              data-dropdown-placement="bottom"
-              className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+            <Dropdown
+              buttonId="LineDefaultButton"
+              elementId="lastDaysLine"
+              buttonClassName="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
               type="button"
             >
               مصرف {translateDate(chartDate)}
@@ -534,11 +503,11 @@ export default function PowerChart() {
                   d="m1 1 4 4 4-4"
                 />
               </svg>
-            </button>
+            </Dropdown>
             {/* Dropdown menu */}
             <div
               id="lastDaysLine"
-              className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+              style={{top:"635px"}} className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -580,59 +549,12 @@ export default function PowerChart() {
                     دیروز
                   </a>
                 </li>
-                {/* <li className={chartDate == "last7days" ? "hidden" : ""}>
-                  <a
-                    onClick={() => {
-                      setChartDate("last7days");
-                      setPowerData(null);
-                      setLoading(2);
-                    }}
-                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    ۷ روز اخیر
-                  </a>
-                </li> */}
-                {/* <li>
-                  <button
-                    // id="datePickerInlineButton"
-                    // data-dropdown-toggle="datePickerInline"
-                    // data-dropdown-placement="right-end"
-                    // onClick={() => {
-                    //   setDatePicker(!datePicker);
-                    // }}
-                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    انتخاب تاریخ
-                  </button>
-                </li> */}
-                {/* <li>
-                  <a
-                    href="#"
-                    className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    ۱ ماه اخیر
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="cursor-pointerblock px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    ۳ ماه اخیر
-                  </a>
-                </li> */}
               </ul>
             </div>
-            <button
-              // onClick={() => {
-              //   exportAsImage(
-              //     divRef.current,
-              //     `گزارش توان مصرفی ${transPerDate(chartDate)}`
-              //   );
-              // }}
-              id="exportOptionsButton"
-              data-dropdown-toggle="exportOptions"
-              className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
+            <Dropdown
+              buttonId="exportOptionsButton"
+              elementId="exportOptions"
+              buttonClassName="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
             >
               دریافت گزارش
               <svg
@@ -650,10 +572,10 @@ export default function PowerChart() {
                   d="m1 9 4-4-4-4"
                 />
               </svg>
-            </button>
+            </Dropdown>
             <div
               id="exportOptions"
-              className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+              style={{top: "635px", left: "40px"}} className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -674,7 +596,7 @@ export default function PowerChart() {
                 </li>
                 <li>
                   <a
-                    href={`http://rcpss-sutech.ir/django/power-export/?date=${chartDate}`}
+                    href={`http://rcpss-sutech.ir/django/power-export?date=${chartDate}`}
                     className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     دریافت CSV

@@ -27,7 +27,7 @@ async function Login() {
 
       if (error === null) {
         setMessage({ message: "خوش آمدید", mesStatus: "success" });
-        push("/dashboard");
+        redirect("/dashboard");
       } else {
         setMessage({ message: "ورود شما ناموفق بود. لطفا مجددا تلاش نمایید", mesStatus: "error" });
         console.error(error);

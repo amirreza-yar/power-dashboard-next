@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Spinner, theme } from "flowbite-react";
+import { Spinner, Tooltip, theme } from "flowbite-react";
 import { loadRadialChart } from "./utils/LoadCharts";
 import { transPerDate } from "./utils/TranslateToPersian";
 import translateDate from "./utils/TranslateToPersian";
 import { toPersianNumeral } from "./utils/FormatPersianTime";
 import NumberCounter from "./utils/NumberCounter";
+import Dropdown from "@component/helpers/Dropdown";
 
 export default function PredictCost({
   changeRate,
@@ -43,23 +44,61 @@ export default function PredictCost({
               />
             )}
           </p>
-          <svg
-            data-popover-target="radial-chart-info"
-            data-popover-placement="bottom"
-            className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer mr-1"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 20 20"
+          <Tooltip
+            content={
+              <div
+                id="radial-chart-info"
+                role="tooltip"
+                style={{ width: "250px" }}
+                className="text-sm text-white"
+              >
+                <div className="p-2 space-y-2">
+                  <h3 className="font-semibold">
+                    تحلیل مصرف {transPerDate(chartDate)}
+                  </h3>
+                  <p>
+                    کمترین مصرف {toPersianNumeral(minMaxData?.minPower) + "وات"}{" "}
+                    در ساعت {minMaxData?.minHour}
+                    <br />
+                    بیشترین مصرف{" "}
+                    {toPersianNumeral(minMaxData?.maxPower) + "وات"} در ساعت{" "}
+                    {minMaxData?.maxHour}
+                    <br />
+                    مشتری بر اساس تعرفه وزارت نیرو:{" "}
+                    {changeRate <= -15
+                      ? "کم مصرف"
+                      : changeRate > 0
+                      ? "پر مصرف"
+                      : "مصرف مرزی"}
+                    <br />
+                    پتانسیل کاهش مصرف:{" "}
+                    {changeRate > 0 ? toPersianNumeral(changeRate) : "-"}
+                    <br />
+                    هزینه برق با آخرین تعرفه ی وزارت نیرو بر حسب مصرف در تاریخ
+                    جاری، با احتساب وقوع مصارف مشابه در روز های بعد تا یکماه،
+                    تخمین زده شده است. درصد قابل کاهش در هزینه در صورت رعایت حد
+                    مجاز.
+                  </p>
+                </div>
+                <div data-popper-arrow="" />
+              </div>
+            }
+            animation="duration-300"
           >
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
-          </svg>
+            <svg
+              className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer mr-1"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
+            </svg>
+          </Tooltip>
           <div
-            data-popover=""
             id="radial-chart-info"
             role="tooltip"
             style={{ width: "250px" }}
-            className="absolute z-50 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
+            className="absolute z-50 hidden inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
           >
             <div className="p-2 space-y-2">
               <h3 className="font-semibold text-gray-900 dark:text-white">
@@ -80,32 +119,12 @@ export default function PredictCost({
                   : "مصرف مرزی"}
                 <br />
                 پتانسیل کاهش مصرف:{" "}
-                {changeRate > 0 ? toPersianNumeral(changeRate) : "-"}<br />
+                {changeRate > 0 ? toPersianNumeral(changeRate) : "-"}
+                <br />
                 هزینه برق با آخرین تعرفه ی وزارت نیرو بر حسب مصرف در تاریخ جاری،
                 با احتساب وقوع مصارف مشابه در روز های بعد تا یکماه، تخمین زده
                 شده است. درصد قابل کاهش در هزینه در صورت رعایت حد مجاز.
               </p>
-              {/* <a
-                href="#"
-                className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
-              >
-                اطلاعات بیشتر{" "}
-                <svg
-                  className="w-2 h-2 mr-1 rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="m1 9 4-4-4-4"
-                  />
-                </svg>
-              </a> */}
             </div>
             <div data-popper-arrow="" />
           </div>

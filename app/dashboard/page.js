@@ -9,10 +9,11 @@ import Cookies from "js-cookie";
 import Message from "@component/Message";
 import { useMessage } from "@context/MessageContext";
 import { useRouter } from "next/navigation";
+import { DarkThemeToggle, Flowbite } from "flowbite-react";
 
 export default function Dashboard() {
   const [drawer, setDrawer] = useState(false);
-  const { DarkMode, setDarkMode } = useDarkMode();
+  const { DarkMode, toggleDarkMode } = useDarkMode();
   const { setMessage } = useMessage();
   const { push } = useRouter();
 
@@ -82,40 +83,10 @@ export default function Dashboard() {
               </a>
             </div>
             <div className="flex items-center lg:order-2">
+              <Flowbite>
+                <DarkThemeToggle />
+              </Flowbite>
               {/* Notifications */}
-              <button
-                onClick={DarkModeButton}
-                type="button"
-                className="hidden sm:block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
-              >
-                <svg
-                  className="w-5 h-5 dark:hidden block"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 18 20"
-                >
-                  <path d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z" />
-                </svg>
-                <svg
-                  id="theme-toggle-dark-icon"
-                  className="hidden w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
-                <svg
-                  className="w-5 h-5 dark:block hidden"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-11a1 1 0 0 0 1-1V1a1 1 0 0 0-2 0v2a1 1 0 0 0 1 1Zm0 12a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1ZM4.343 5.757a1 1 0 0 0 1.414-1.414L4.343 2.929a1 1 0 0 0-1.414 1.414l1.414 1.414Zm11.314 8.486a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM4 10a1 1 0 0 0-1-1H1a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1Zm15-1h-2a1 1 0 1 0 0 2h2a1 1 0 0 0 0-2ZM4.343 14.243l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414a1 1 0 0 0-1.414-1.414ZM14.95 6.05a1 1 0 0 0 .707-.293l1.414-1.414a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 .707 1.707Z" />
-                </svg>
-              </button>
 
               <button
                 type="button"
@@ -617,11 +588,12 @@ export default function Dashboard() {
                   <span className="mr-3">اسـنـاد (DEV)</span>
                 </a>
               </li>
-              <li className="sm:hidden block">
+              {/* <li className="sm:hidden block">
                 <a
-                  onClick={DarkModeButton}
+                  // onClick={DarkModeButton}
                   className="cursor-pointer flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                 >
+                  <DarkThemeToggle />
                   <svg
                     className="w-4 h-4 dark:hidden block text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
@@ -652,7 +624,7 @@ export default function Dashboard() {
                   <span className="mr-3 dark:hidden block">تم شب</span>
                   <span className="mr-3 dark:block hidden">تم روز</span>
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a
                   href="#"
@@ -685,9 +657,12 @@ export default function Dashboard() {
               <li>
                 <a
                   onClick={() => {
-                    setMessage({message: "از حساب خود خارج شدید", mesStatus: "info"});
+                    setMessage({
+                      message: "از حساب خود خارج شدید",
+                      mesStatus: "info",
+                    });
                     logout();
-                    push("/dashboard/login")
+                    push("/dashboard/login");
                   }}
                   className="cursor-pointer flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                 >

@@ -5,6 +5,7 @@ import { loadColChart } from "./utils/LoadCharts";
 import { formatDate, toPersianNumeral } from "./utils/FormatPersianTime";
 import translateDate from "./utils/TranslateToPersian";
 import { exportAsImage } from "./utils/DownloadChart";
+import Dropdown from "@component/helpers/Dropdown";
 
 export default function PowerChart() {
   const [loading, setLoading] = useState(true);
@@ -172,11 +173,10 @@ export default function PowerChart() {
         <div className="items-center border-gray-200 border-t dark:border-gray-700 justify-between">
           <div className="flex justify-between items-center pt-5">
             {/* Button */}
-            <button
-              id="ColumnDaysDefaultButton"
-              data-dropdown-toggle="lastDayscolumn"
-              data-dropdown-placement="bottom"
-              className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+            <Dropdown
+              buttonId="ColumnDaysDefaultButton"
+              elementId="lastDayscolumn"
+              buttonClassName="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
               type="button"
             >
               مصرف {translateDate(chartDate)}
@@ -195,11 +195,12 @@ export default function PowerChart() {
                   d="m1 1 4 4 4-4"
                 />
               </svg>
-            </button>
+            </Dropdown>
             {/* Dropdown menu */}
             <div
               id="lastDayscolumn"
-              className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+              style={{top: "1380px"}}
+              className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"

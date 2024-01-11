@@ -128,3 +128,11 @@
   font-size: 18px;
   /* z-index: 0; */
 }
+
+.toast-container {
+  position: fixed;   /* Fixed positioning */
+  bottom: 20px;      /* Distance from the bottom of the viewport */
+  right: 20px;       /* Distance from the right side of the viewport */
+  z-index: 1000;     /* Ensure the toast appears above other elements */
+  /* Additional styling for the toast can be added here */
+}

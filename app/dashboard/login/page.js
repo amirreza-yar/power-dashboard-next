@@ -2,19 +2,16 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@context/AuthContext";
+import { useMessage } from "@context/MessageContext";
 
 async function Login() {
   const { login, error } = useAuth();
   const { push } = useRouter();
+  const { setMessage } = useMessage();
   const [formValues, setFormValues] = useState({
     uuid: "",
     password: "",
   });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,8 +27,10 @@ async function Login() {
       console.log("Login successful.");
       // Redirect to dashboard
       push("/dashboard");
+      setMessage({message: "خوش آمدید", status: "info"});
     } catch (err) {
       // Log error message
+      setMessage("ورود ناموفق");
       console.error(err.message);
     }
   };

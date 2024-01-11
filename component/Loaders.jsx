@@ -1,7 +1,7 @@
 export const SpinLoader = () => {
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-400"></div>
+            <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-indigo-400"></div>
         </div>
     )
 };
@@ -19,6 +19,14 @@ export const OfflinePage = () => {
     return (
         <div className="flex justify-center items-center h-screen">
             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-orange-400"></div>
+        </div>
+    )
+};
+
+export const LogoLoader = () => {
+    return (
+        <div className="flex justify-center items-center h-screen">
+            <img src="/rcpss.png" className="h-10 w-10" />
         </div>
     )
 };

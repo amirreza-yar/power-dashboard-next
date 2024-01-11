@@ -5,21 +5,22 @@ import PowerChart from "@component/charts/PowerChart";
 import ColPowerChart from "@component/charts/ColPowerChart";
 import ProtectedRoute from "@component/ProtectedPages";
 import { useAuth } from "@context/AuthContext";
+import Cookies from "js-cookie";
+import Message from "@component/Message";
+import { useMessage } from "@context/MessageContext";
 
 export default function Dashboard() {
   const [drawer, setDrawer] = useState(false);
   const { DarkMode, setDarkMode } = useDarkMode();
+  const { setMessage } = useMessage();
 
   const { logout, error } = useAuth();
 
   function DarkModeButton() {
     setDarkMode(!DarkMode);
-    console.log(DarkMode);
-    if (DarkMode === true) {
-      document.getElementById("html").classList.add("dark");
-    } else {
-      document.getElementById("html").classList.remove("dark");
-    }
+
+    // console.log("DarkMode state is:", DarkMode);
+    // console.log("Cookie DarkMode state is:", !Cookies.get("darkMode"));
   }
 
   // const [DarkMode, setDarkMode] = useDarkMode();
@@ -681,7 +682,10 @@ export default function Dashboard() {
               </li>
               <li>
                 <a
-                  onClick={() => {logout()}}
+                  onClick={() => {
+                    setMessage({message: "از حساب خارج شدید", mesStatus: "info"});
+                    // logout();
+                  }}
                   className="cursor-pointer flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                 >
                   <svg

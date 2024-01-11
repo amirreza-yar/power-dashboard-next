@@ -5,16 +5,8 @@ import { useDarkMode } from "@context/context";
 export default function DashboardLayout({ children }) {
   const [drawer, setDrawer] = useState(false);
 
-  const { DarkMode, setDarkMode } = useDarkMode();
-
   function DarkModeButton() {
-    setDarkMode(!DarkMode);
-    console.log(DarkMode);
-    if (DarkMode === true) {
-      document.getElementById("html").classList.add("dark");
-    } else {
-      document.getElementById("html").classList.remove("dark");
-    }
+    // setDarkMd(!DarkMode);
   }
 
   // const [DarkMode, setDarkMode] = useDarkMode();

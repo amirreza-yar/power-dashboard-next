@@ -5,7 +5,7 @@ import { useAuth } from "@context/AuthContext";
 import { useMessage } from "@context/MessageContext";
 
 async function Login() {
-  const { login, error } = useAuth();
+  const { login, error, logout } = useAuth();
   const { push } = useRouter();
   const { setMessage } = useMessage();
   const [formValues, setFormValues] = useState({
@@ -21,16 +21,17 @@ async function Login() {
     const password = formData.get("password");
     // console.log(uuid, password);
     try {
+      logout();
       await login(uuid, password);
-      // Log success message
-      console.log(uuid, password);
-      console.log("Login successful.");
-      // Redirect to dashboard
-      push("/dashboard");
-      setMessage({message: "خوش آمدید", status: "info"});
+
+      if (error !== null) {
+        push("/dashboard");
+        setMessage({ message: "خوش آمدید", mesStatus: "success" });
+      } else {
+        throw new Error("ورود ناموفق")
+      }
     } catch (err) {
-      // Log error message
-      setMessage("ورود ناموفق");
+      setMessage({ message: "ورود ناموفق", mesStatus: "error" });
       console.error(err.message);
     }
   };
@@ -173,9 +174,7 @@ async function Login() {
                   </button>
                   <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     حساب نداری؟
-                    <a
-                      className="mr-1 text-blue-700 hover:underline dark:text-blue-500"
-                    >
+                    <a className="mr-1 text-blue-700 hover:underline dark:text-blue-500">
                       ثبت‌نام در داشبورد انرژی
                     </a>
                   </div>

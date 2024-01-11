@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
       setUser(access);
       console.log("User is: " + user);
     } catch (err) {
+      setUser(null);
       setError("Login failed. Please try again.");
     }
   };

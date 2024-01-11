@@ -8,11 +8,13 @@ import { useAuth } from "@context/AuthContext";
 import Cookies from "js-cookie";
 import Message from "@component/Message";
 import { useMessage } from "@context/MessageContext";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [drawer, setDrawer] = useState(false);
   const { DarkMode, setDarkMode } = useDarkMode();
   const { setMessage } = useMessage();
+  const { push } = useRouter();
 
   const { logout, error } = useAuth();
 
@@ -685,6 +687,7 @@ export default function Dashboard() {
                   onClick={() => {
                     setMessage({message: "از حساب خود خارج شدید", mesStatus: "info"});
                     logout();
+                    push("/dashboard/login")
                   }}
                   className="cursor-pointer flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                 >

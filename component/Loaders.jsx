@@ -25,8 +25,8 @@ export const OfflinePage = () => {
 
 export const LogoLoader = () => {
     return (
-        <div className="flex justify-center items-center h-screen">
-            <img src="/rcpss.png" className="h-10 w-10" />
+        <div className="flex justify-center items-center h-screen bg-white dark:bg-gray-900">
+            <img src="/rcpss.png" className="h-15 w-15 photo-animation" />
         </div>
     )
 };

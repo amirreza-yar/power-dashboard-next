@@ -27,7 +27,7 @@ async function Login() {
 
       if (error === null) {
         setMessage({ message: "خوش آمدید", mesStatus: "success" });
-        redirect("/dashboard");
+        push("/dashboard");
       } else {
         setMessage({ message: "ورود شما ناموفق بود. لطفا مجددا تلاش نمایید", mesStatus: "error" });
         console.error(error);
@@ -40,7 +40,7 @@ async function Login() {
   return (
     <UnProtectedRoute>
       <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 font-iranyekan">
-        <main className="bg-gray-50 dark:bg-gray-900">
+        <main className="bg-gray-50 dark:bg-gray-900 h-screen">
           <div className="flex flex-col justify-center items-center py-8 px-6 mx-auto md:h-screen">
             <a
               className="flex justify-center items-center mb-8 text-3xl font-semibold lg:mb-10 dark:text-white"

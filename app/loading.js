@@ -1,5 +1,5 @@
-import { SpinLoader } from "@component/Loaders"
+import { LogoLoader } from "@component/Loaders"
 
 export default () => {
-    return <SpinLoader />
+    return <LogoLoader />
 }

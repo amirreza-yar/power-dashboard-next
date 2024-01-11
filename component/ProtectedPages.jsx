@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
       setMessage({ message: "لطفا ابتدا وارد حساب خود شوید", mesStatus: "info" });
       redirect("/dashboard/login");
     }
-  }, [user]);
+  }, []);
 
   return <>{user ? children : null}</>;
 };

@@ -22,8 +22,8 @@ export const AuthProvider = ({ children }) => {
       const { access, refresh } = response.data;
 
       // Store tokens in cookies
-      Cookies.set("accessToken", access, { SameSite: "None", Secure: true });
-      Cookies.set("refreshToken", refresh, { SameSite: "None", Secure: true });
+      Cookies.set("accessToken", access, { expires: 7, path: "/" });
+      Cookies.set("refreshToken", refresh, { expires: 7, path: "/" });
 
       // Fetch user details or set user state based on response
       // const userDetails = await fetchUserDetails();

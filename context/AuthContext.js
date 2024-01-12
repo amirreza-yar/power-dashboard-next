@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
 
   const validateToken = async () => {
     try {
-      const response = await axios.post(
+      const response = await axios.get(
         "http://rcpss-sutech.ir/django/validate-token/",
         {
           headers: {
@@ -52,12 +52,13 @@ export const AuthProvider = ({ children }) => {
           },
         }
       );
+      const res = await response.data;
+      setUser(res.access_token);
       setError(null);
-      console.log("Token is valid!");
-    } catch (err) {
-      console.error(err);
-      setUser(null);
-      setError("Token is invalid");
+      return true
+    } catch {
+      logout();
+      return false
     }
   };
 

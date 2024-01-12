@@ -66,7 +66,7 @@ const Message = () => {
     );
 
     // Update state to include the new toast
-    setToasts((prevToasts) => [...prevToasts, newToast]);
+    setToasts([newToast]);
   };
 
   useEffect(() => {

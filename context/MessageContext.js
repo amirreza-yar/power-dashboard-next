@@ -9,10 +9,6 @@ export function useMessage() {
 export function MessageProvider({ children }) {
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    
-  }, [message]);
-
   return (
     <MessageContext.Provider value={{ message, setMessage }}>
       {children}

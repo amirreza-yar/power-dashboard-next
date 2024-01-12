@@ -6,6 +6,7 @@ import { formatDate, toPersianNumeral } from "./utils/FormatPersianTime";
 import translateDate from "./utils/TranslateToPersian";
 import { exportAsImage } from "./utils/DownloadChart";
 import Dropdown from "@component/helpers/Dropdown";
+import { useAuth } from "@context/AuthContext";
 
 export default function PowerChart() {
   const [loading, setLoading] = useState(true);
@@ -13,15 +14,21 @@ export default function PowerChart() {
   const [chart, setChart] = useState(null);
   const [chartDate, setChartDate] = useState("last7days");
   const chartRef = useRef(null);
+  const { user } = useAuth();
 
   const loadChart = async () => {
     try {
       let apiUrl =
         "http://rcpss-sutech.ir/django/energy-stat/?range=" + chartDate;
 
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${user}`,
+        },
+      });
+      console.log("energy stat fetching>>>>>>");
       const data = await response.json();
-
+      console.log(data);
       setColumnData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -33,6 +40,7 @@ export default function PowerChart() {
       setChart(loadColChart([0], [0]));
     }
     if (chartDate !== null && columnData === null) {
+      console.log("load col chart>>>>>>")
       loadChart();
     }
     if (columnData !== null && chart !== null) {
@@ -199,7 +207,7 @@ export default function PowerChart() {
             {/* Dropdown menu */}
             <div
               id="lastDayscolumn"
-              style={{top: "1380px"}}
+              style={{ top: "1380px" }}
               className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
             >
               <ul
@@ -262,7 +270,10 @@ export default function PowerChart() {
             </div>
             <button
               onClick={() => {
-                exportAsImage(chartRef.current, `گزارش مصرف ${translateDate(chartDate)}`);
+                exportAsImage(
+                  chartRef.current,
+                  `گزارش مصرف ${translateDate(chartDate)}`
+                );
               }}
               className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-indigo-500 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
             >

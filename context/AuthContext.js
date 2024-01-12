@@ -42,8 +42,27 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const validateToken = async () => {
+    try {
+      const response = await axios.post(
+        "http://rcpss-sutech.ir/django/validate-token/",
+        {
+          headers: {
+            Authorization: `Bearer ${user}`,
+          },
+        }
+      );
+      setError(null);
+      console.log("Token is valid!");
+    } catch (err) {
+      console.error(err);
+      setUser(null);
+      setError("Token is invalid");
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, error, login, logout }}>
+    <AuthContext.Provider value={{ user, error, login, logout, validateToken }}>
       {children}
     </AuthContext.Provider>
   );

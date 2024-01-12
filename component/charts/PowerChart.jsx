@@ -13,11 +13,44 @@ import { Datepicker } from "flowbite-react";
 import { exportAsImage, exportAsCSV } from "./utils/DownloadChart";
 import PredictCost from "./PredictCost";
 import Dropdown from "@component/helpers/Dropdown";
+import { useAuth } from "@context/AuthContext";
 
 // import jsPDF from "jspdf";
 
 export default function PowerChart() {
   const today = new Date();
+  const { user } = useAuth();
+
+  const handleExportClick = async () => {
+    const apiUrl = `http://rcpss-sutech.ir/django/power-export?date=${chartDate}`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${user}`,
+        },
+      });
+
+      if (response.ok) {
+        // Handle the successful response, e.g., download the file
+        // Example: Download a CSV file
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${persianToday}_full_report.csv`; // Replace with the desired file name
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      } else {
+        // Handle errors
+        console.error("Error:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
 
   const persianDate = today.toLocaleDateString("en-GB", {
     timeZone: "Asia/Tehran",
@@ -56,7 +89,11 @@ export default function PowerChart() {
         chartDate === "realtime" ? "realtime/" : `daily-stat/?date=${chartDate}`
       }`;
 
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${user}`,
+        },
+      });
       const data = await response.json();
 
       setPowerData(data);
@@ -434,7 +471,12 @@ export default function PowerChart() {
               </Dropdown>
             </div>
 
-            <div id="datePickerInline" className="z-10 hidden absolute" style={{left: "90px"}} dir="ltr">
+            <div
+              id="datePickerInline"
+              className="z-10 hidden absolute"
+              style={{ left: "90px" }}
+              dir="ltr"
+            >
               <Datepicker
                 language="fa-IR"
                 labelTodayButton="امروز"
@@ -507,7 +549,8 @@ export default function PowerChart() {
             {/* Dropdown menu */}
             <div
               id="lastDaysLine"
-              style={{top:"635px"}} className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+              style={{ top: "635px" }}
+              className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -575,7 +618,8 @@ export default function PowerChart() {
             </Dropdown>
             <div
               id="exportOptions"
-              style={{top: "635px", left: "40px"}} className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+              style={{ top: "635px", left: "40px" }}
+              className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -596,7 +640,7 @@ export default function PowerChart() {
                 </li>
                 <li>
                   <a
-                    href={`http://rcpss-sutech.ir/django/power-export?date=${chartDate}`}
+                    onClick={handleExportClick}
                     className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     دریافت CSV

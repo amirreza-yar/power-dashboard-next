@@ -34,3 +34,25 @@ export function toPersianNumeral(number) {
       .join("") + (isNegative ? "-" : "")
   );
 }
+
+export function toPersianNumCost(number) {
+  const persianNumerals = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  const isNegative = number < 0;
+  const absNumber = Math.abs(number);
+  const numString = String(absNumber);
+  const decimalIndex = numString.indexOf(".");
+  const integerPart =
+    decimalIndex === -1 ? numString : numString.slice(0, decimalIndex);
+  const decimalPart = decimalIndex === -1 ? "" : numString.slice(decimalIndex);
+
+  const formattedIntegerPart = integerPart
+    .split("")
+    .map((digit) => persianNumerals[digit])
+    .join("");
+
+  return (
+    formattedIntegerPart +
+    (decimalIndex !== -1 ? "," + decimalPart : "") +
+    (isNegative ? "-" : "")
+  );
+}

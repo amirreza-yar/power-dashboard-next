@@ -661,8 +661,8 @@ export default function Dashboard() {
                       message: "از حساب خود خارج شدید",
                       mesStatus: "info",
                     });
+                    push("/dashboard/login");
                     logout();
-                    redirect("/dashboard/login");
                   }}
                   className="cursor-pointer flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                 >

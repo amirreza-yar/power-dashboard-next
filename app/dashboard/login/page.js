@@ -4,17 +4,21 @@ import { useRouter, redirect } from "next/navigation";
 import { useAuth } from "@context/AuthContext";
 import { useMessage } from "@context/MessageContext";
 import UnProtectedRoute from "@component/UnProtectedPages";
+import axios from "axios";
+import { Spinner } from "flowbite-react";
 
 async function Login() {
   const { login, error, logout } = useAuth();
   const { push } = useRouter();
   const { setMessage } = useMessage();
+  const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({
     uuid: "",
     password: "",
   });
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     // console.log(formValues.uuid, formValues.password);
     const formData = new FormData(e.target);
@@ -23,17 +27,29 @@ async function Login() {
     // console.log(uuid, password);
     try {
       logout();
-      await login(uuid, password);
+      const response = await axios.post(
+        "http://rcpss-sutech.ir/django/api/token/",
+        { uuid, password }
+      );
 
-      if (error === null) {
-        setMessage({ message: "خوش آمدید", mesStatus: "success" });
-        redirect("/dashboard");
-      } else {
-        setMessage({ message: "ورود شما ناموفق بود. لطفا مجددا تلاش نمایید", mesStatus: "error" });
-        console.error(error);
-        throw new Error("ورود ناموفق")
-      }
+      login(response);
+
+      // if (error === null) {
+      console.log("Success running!, error:", error);
+      setLoading(false);
+      setMessage({ message: "خوش آمدید", mesStatus: "success" });
+      push("/dashboard");
+      // } else if (error) {
+      // }
     } catch (err) {
+      console.log("Error running!, error:", err);
+      setMessage({
+        message: "ورود شما ناموفق بود. لطفا مجددا تلاش نمایید",
+        mesStatus: "error",
+      });
+      setLoading(false);
+      console.error(err);
+      throw new Error("ورود ناموفق");
     }
   };
 
@@ -166,11 +182,20 @@ async function Login() {
                     </div>
                   </div>
                   <button
-                    className="text-white font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center mb-6 bg-blue-700"
+                    className={`text-white font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center mb-6 ${loading ? 'bg-blue-500' : 'bg-blue-700'}`}
                     type="submit"
+                    disabled={loading ? true : false}
                   >
-                    <span className="flex justify-center items-center">
+                    <span className="flex justify-center items-center" >
                       وارد شدن
+                      {loading && (
+                        <Spinner
+                          className="mr-3"
+                          aria-label="Power chart loader"
+                          size="sm"
+                          color="purple"
+                        />
+                      )}
                     </span>
                   </button>
                   <div className="text-sm font-medium text-gray-500 dark:text-gray-400">

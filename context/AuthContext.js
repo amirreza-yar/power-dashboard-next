@@ -13,12 +13,8 @@ export const AuthProvider = ({ children }) => {
     setUser(Cookies.get("accessToken"));
   }, [user]);
 
-  const login = async (uuid, password) => {
+  const login = async (response) => {
     try {
-      const response = await axios.post(
-        "http://rcpss-sutech.ir/django/api/token/",
-        { uuid, password }
-      );
       const { access, refresh } = response.data;
 
       // Store tokens in cookies

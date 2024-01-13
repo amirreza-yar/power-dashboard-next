@@ -44,7 +44,7 @@ const createPowerChart = (currentData, timeData) => {
             filename: undefined,
           },
         },
-        autoSelected: "zoom",
+        autoSelected: "zoomin",
       },
     },
     tooltip: {

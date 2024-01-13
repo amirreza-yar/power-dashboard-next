@@ -4,6 +4,7 @@ import { Spinner, theme } from "flowbite-react";
 import { loadPieChart } from "./utils/LoadCharts";
 import { transPerDate } from "./utils/TranslateToPersian";
 import translateDate from "./utils/TranslateToPersian";
+import { Tooltip } from "flowbite-react";
 import {
   formatTime,
   formatDate,
@@ -65,6 +66,7 @@ function calculateSumOfEnergies(hourlyEnergies) {
 export default function PieChart({ chartDate, powers }) {
   const [loading, setLoading] = useState(true);
   const [pieChart, setPieChart] = useState(null);
+  const [energyInt, setEnergyInt] = useState(null);
 
   Array.prototype.max = function () {
     return Math.max.apply(null, this);
@@ -86,6 +88,8 @@ export default function PieChart({ chartDate, powers }) {
       powers !== undefined
     ) {
       const energyRanges = calculateSumOfEnergies(calculateEnergy(powers));
+
+      setEnergyInt(energyRanges);
 
       try {
         pieChart.render();
@@ -129,10 +133,14 @@ export default function PieChart({ chartDate, powers }) {
         dataLabels: {
           formatter: function (val, opt) {
             return (
-              toPersianNumeral(Math.floor(val / 100 *
-              (energyRanges.firstInterval +
-                energyRanges.secondInterval +
-                energyRanges.thirdInterval))) + "wh"
+              toPersianNumeral(
+                Math.floor(
+                  (val / 100) *
+                    (energyRanges.firstInterval +
+                      energyRanges.secondInterval +
+                      energyRanges.thirdInterval)
+                )
+              ) + "wh"
             );
           },
         },
@@ -142,6 +150,28 @@ export default function PieChart({ chartDate, powers }) {
     }
   }, [powers]);
 
+  const tooltipTheme = {
+    target: "w-fit",
+    animation: "transition-opacity",
+    arrow: {
+      base: "absolute z-50 h-2 w-2 rotate-45",
+      style: {
+        dark: "bg-gray-900 dark:bg-gray-700",
+        light: "bg-white",
+        auto: "bg-white dark:bg-gray-700",
+      },
+      placement: "-4px",
+    },
+    base: "absolute inline-block z-50 rounded-lg py-2 px-3 text-sm font-medium shadow-sm",
+    hidden: "invisible opacity-0",
+    style: {
+      dark: "bg-gray-900 text-white dark:bg-gray-700",
+      light: "border border-gray-200 bg-white text-gray-900",
+      auto: "border border-gray-200 bg-white text-gray-900 dark:border-none dark:bg-gray-700 dark:text-white",
+    },
+    content: "relative z-20",
+  };
+
   return (
     <>
       <div className="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-5">
@@ -150,57 +180,47 @@ export default function PieChart({ chartDate, powers }) {
             <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white p-1">
               میزان مصرف
             </h5>
-            <svg
-              data-popover-target="pie-chart-info"
-              data-popover-placement="bottom"
-              className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
-            </svg>
-            <div
-              data-popover=""
-              id="pie-chart-info"
-              role="tooltip"
-              style={{ width: "200px" }}
-              className="absolute z-50 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
-            >
-              <div className="p-2 space-y-2">
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  میزان مصرف شما
-                </h3>
-                <p>
-                  لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                  استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و
-                  مجله در ستون و سطرآنچنان که لازم است
-                </p>
-                <a
-                  href="#"
-                  className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
+            <Tooltip
+              theme={tooltipTheme}
+              content={
+                <div
+                  id="radial-chart-info"
+                  role="tooltip"
+                  style={{ width: "250px", zIndex: "10000px" }}
+                  className="text-sm text-white"
                 >
-                  اطلاعات بیشتر{" "}
-                  <svg
-                    className="w-2 h-2 mr-1 rotate-180"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 6 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="m1 9 4-4-4-4"
-                    />
-                  </svg>
-                </a>
-              </div>
-              <div data-popper-arrow="" />
-            </div>
+                  <div className="p-2 space-y-2">
+                    <h3 className="font-semibold text-lg">
+                      میزان مصرف {transPerDate(chartDate)}
+                    </h3>
+                    <p>
+                      مصرف کم‌باری (۲۳ الی ۷){" "}
+                      {toPersianNumeral(Math.floor(energyInt?.firstInterval)) +
+                        "وات‌ساعت"}
+                      <br />
+                      مصرف میان‌باری (۷ الی ۱۹){" "}
+                      {toPersianNumeral(Math.floor(energyInt?.secondInterval)) +
+                        "وات‌ساعت"}
+                      <br />
+                      مصرف پرباری (۱۹ الی ۲۳){" "}
+                      {toPersianNumeral(Math.floor(energyInt?.thirdInterval)) +
+                        "وات‌ساعت"}
+                    </p>
+                  </div>
+                  <div data-popper-arrow="" />
+                </div>
+              }
+              animation="duration-300"
+            >
+              <svg
+                className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer mr-1 mt-1"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
+              </svg>
+            </Tooltip>
           </div>
         </div>
 

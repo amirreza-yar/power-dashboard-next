@@ -105,3 +105,17 @@
   background-color: #3498db; /* You can change the color */
   position: relative;
 }
+
+.col-chart-days-dropdown {
+  top: 0px,
+}
+
+@media (max-width: 767px) {
+  .col-chart-days-dropdown {
+    top: 1770px !important;
+  }
+}
+
+.apexcharts-toolbar {
+  z-index: 500px !important;
+}

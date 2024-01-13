@@ -207,8 +207,8 @@ export default function PowerChart() {
             {/* Dropdown menu */}
             <div
               id="lastDayscolumn"
-              style={{ top: "1380px" }}
-              className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+              style={{ top: "1380px",}}
+              className="absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 col-chart-days-dropdown"
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"

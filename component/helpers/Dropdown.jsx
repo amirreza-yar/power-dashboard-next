@@ -2,7 +2,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
-const Dropdown = ({ elementId, buttonId, buttonClassName, children }) => {
+const Dropdown = ({ elementId, buttonId, buttonClassName, children, clickOutside=true }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -41,7 +41,8 @@ const Dropdown = ({ elementId, buttonId, buttonClassName, children }) => {
   return (
     <button
       id={buttonId}
-      ref={dropdownRef}
+      clickOutside={clickOutside}
+      ref={clickOutside ? dropdownRef : null}
       className={buttonClassName}
       onClick={toggleDropdown}
     >

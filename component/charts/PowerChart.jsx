@@ -250,7 +250,11 @@ export default function PowerChart() {
         annotations: {
           yaxis: [
             {
-              y: maxAllowedCons,
+              y:
+                currentData.min() < 300 &&
+                currentData.max() - currentData.min() > 200
+                  ? 99999999999
+                  : maxAllowedCons,
               strokeDashArray: 0.5,
               borderWidth: 2,
               borderColor: "#6875f5",
@@ -448,6 +452,7 @@ export default function PowerChart() {
               <Dropdown
                 type="button"
                 buttonId="datePickerInlineButton"
+                clickOutside={false}
                 buttonClassName={`text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-0 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700`}
                 elementId="datePickerInline"
               >
@@ -670,6 +675,18 @@ export default function PowerChart() {
             energy={powerData?.energy !== null ? powerData?.energy : 0}
             chartDate={chartDate}
             minMaxData={minMaxData}
+            predictedCost={
+              powerData?.predicted_cost ? (
+                toPersianNumeral(powerData?.predicted_cost)
+              ) : (
+                <Spinner
+                  className="ml-2 mb-1"
+                  aria-label="Power chart loader"
+                  size="sm"
+                  color="purple"
+                />
+              )
+            }
           />
         </div>
       )}

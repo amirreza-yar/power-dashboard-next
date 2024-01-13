@@ -62,9 +62,9 @@ async function Login() {
               className="flex justify-center items-center mb-8 text-3xl font-semibold lg:mb-10 dark:text-white"
               href="/"
             >
-              <img src="/rcpss.png" className="ml-3 h-8" alt="Flowbite Logo" />
+              <img src="/rcpss.png" className="ml-3 h-12" alt="Flowbite Logo" />
               <span className="self-center text-2xl font-extrabold whitespace-nowrap dark:text-white">
-                داشبورد انرژی
+                مرکز مطالعات انرژی<br className="md:hidden" /> و سیستم‌های قدرت
               </span>
             </a>
             <div className="justify-center items-center w-full bg-white rounded-lg shadow lg:flex md:mt-0 lg:max-w-screen-sm xl:p-0 dark:bg-gray-800">
@@ -72,12 +72,12 @@ async function Login() {
                 <h1 className="mb-3 text-2xl font-bold text-gray-900 lg:text-3xl dark:text-white">
                   ورود به داشبورد انرژی
                 </h1>
-                <p className="mb-3 text-gray-500 dark:text-gray-400">
+                {/* <p className="mb-3 text-gray-500 dark:text-gray-400">
                   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
                   استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و
                   مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
                   تکنولوژی مورد نیاز
-                </p>
+                </p> */}
                 <form className="mt-8" onSubmit={handleSubmit}>
                   <div className="mb-6">
                     <label

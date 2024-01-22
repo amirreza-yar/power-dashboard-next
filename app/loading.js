@@ -1,5 +1,5 @@
-import { LogoLoader } from "@component/Loaders"
+import { LogoLoader } from "@component/Loaders";
 
 export default () => {
-    return <LogoLoader />
-}
+  return <LogoLoader />
+};

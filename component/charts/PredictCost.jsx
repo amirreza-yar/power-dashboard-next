@@ -67,7 +67,7 @@ export default function PredictCost({
                       : "مصرف مرزی"}
                     <br />
                     پتانسیل کاهش مصرف:{" "}
-                    {changeRate > 0 ? toPersianNumeral(changeRate) : "-"}٪
+                    {changeRate > 0 ? `${toPersianNumeral(changeRate)}٪` : "-"}
                     <br />
                     هزینه برق با آخرین تعرفه ی وزارت نیرو بر حسب مصرف در تاریخ
                     جاری، با احتساب وقوع مصارف مشابه در روز های بعد تا یکماه،

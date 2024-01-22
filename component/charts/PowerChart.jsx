@@ -251,8 +251,7 @@ export default function PowerChart() {
           yaxis: [
             {
               y:
-                currentData.min() < 300 &&
-                currentData.max() - currentData.min() > 200
+                currentData.min() > maxAllowedCons
                   ? 99999999999
                   : maxAllowedCons,
               strokeDashArray: 0.5,

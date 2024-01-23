@@ -124,7 +124,7 @@ export default function PowerChart() {
   useEffect(() => {
     if (chart === null) {
       setChart(loadPowerChart([0], [0]));
-      setMaxAllowedCons(200);
+      setMaxAllowedCons(277);
     }
     if (chartDate !== null && powerData === null) {
       console.log("Data refreshed >>>");

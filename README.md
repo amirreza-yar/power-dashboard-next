@@ -473,7 +473,7 @@ Next.js یک چارچوب توسعه وب بر پایه React است که برا
 
     *   این فایل‌ها حاوی اطلاعات مربوط به وابستگی‌ها و نحوه نصب آن‌ها هستند.
 
-### درخت پروژه Next.js
+#### درخت پروژه Next.js
 ```bash
 project-nextjs/
 │
@@ -510,3 +510,254 @@ project-nextjs/
 └── ...
 
 ```
+
+### ساختار فرانت‌اند (`Next.js`)
+‍‍‍‍```bashproject-nextjs/
+│
+├── app/
+│   ├── page.js
+│   ├── layout.js
+│   ├── loading.js
+│   └──dashboard
+│             ├── page.js
+│             ├── layout.js
+│             └──login
+│                      ├── page.js
+│ 
+├── components/
+│   ├── charts
+│             ├── ColPowerChart.jsx
+│             ├── PowerChart.jsx
+│             ├── PiePowerChart.jsx
+│             ├── PredictCost.jsx
+│             ├── utils
+│                       ├── Download.jsx
+│                       ├── FormatPersianTime.jsx
+│                       ├── LoadCharts.jsx
+│                       ├── NumberCounter.jsx
+│                       ├── TranslateToPersian.jsx
+│   ├── ChartLayout.jsx
+│   ├── DashboardLayout.jsx
+│   ├── Loaders.jsx
+│   ├── Message.jsx
+│   ├── Navbar.jsx
+│   ├── ProtectedPages.jsx
+│   ├── SideBarNav.jsx
+│   ├── UnProtectedPages.jsx
+│
+├── public/
+│   ├── images/
+│   └── ...
+│
+└──context/
+    ├── AuthContext.js
+    ├── MessageContext.js
+    └──context.js```
+
+### **پوشه `app/`:**
+   - **`page.js`:**
+        - این فایل احتمالاً یک قالب یا ساختار صفحه عمومی را نمایش می‌دهد.
+   - **`layout.js`:**
+        - یک کامپوننت طراحی که ساختار یکنواختی را برای صفحات فراهم می‌کند.
+   - **`loading.js`:**
+        - یک کامپوننت یا ابزار برای مدیریت وضعیت بارگیری یا اسپینر.
+   - **`dashboard/` Directory:**
+        - **`page.js`:**
+            - ساختار یا قالب صفحات داشبورد را نمایش می‌دهد.
+        - **`layout.js`:**
+            - یک کامپوننت طراحی اختصاصی به داشبورد.
+        - **`login/` Directory:**
+            - **`page.js`:**
+                - ساختار یا قالب صفحات ورود به سیستم.
+
+### **پوشه `components/`:**
+   - **`charts/` Directory:**
+        - **`ColPowerChart.jsx`:**
+            - یک کامپوننت برای نمایش یک نمودار ستونی مرتبط با برق.
+        - **`PowerChart.jsx`:**
+            - یک کامپوننت برای نمایش نمودار کلی برق.
+        - **`PiePowerChart.jsx`:**
+            - یک کامپوننت برای نمایش نمودار دایره‌ای مرتبط با برق.
+        - **`PredictCost.jsx`:**
+            - یک کامپوننت برای نمایش پیش‌بینی‌های مرتبط با هزینه.
+        - **`utils/` Directory:**
+            - **`Download.jsx`:**
+                - یک ابزار برای مدیریت دانلود.
+            - **`FormatPersianTime.jsx`:**
+                - یک ابزار برای فرمت‌بندی زمان به فارسی.
+            - **`LoadCharts.jsx`:**
+                - یک ابزار برای بارگیری نمودارها.
+            - **`NumberCounter.jsx`:**
+                - یک ابزار برای شمارش اعداد.
+            - **`TranslateToPersian.jsx`:**
+                - یک ابزار برای ترجمه به فارسی.
+   - **`ChartLayout.jsx`:**
+        - یک کامپوننت طراحی که به صورت خاص برای نمایش چارت‌ها طراحی شده است.
+   - **`DashboardLayout.jsx`:**
+        - یک کامپوننت طراحی برای صفحات داشبورد.
+   - **`Loaders.jsx`:**
+        - مجموعه‌ای از کامپوننت‌های لودر برای مدیریت وضعیت بارگیری.
+   - **`Message.jsx`:**
+        - یک کامپوننت برای نمایش پیام‌ها یا هشدارها.
+   - **`Navbar.jsx`:**
+        - یک کامپوننت نوار ناوبری.
+   - **`ProtectedPages.jsx`:**
+        - یک کامپوننت که طراحی صفحات محافل را ارائه می‌دهد، احتمالاً آنها را در یک context provider بسته می‌شود.
+   - **`SideBarNav.jsx`:**
+        - یک کامپوننت نوار کناری.
+   - **`UnProtectedPages.jsx`:**
+        - یک کامپوننت که طراحی صفحات بدون محافل را ارائه می‌دهد، احتمالاً آنها را در یک context provider بسته می‌شود.
+
+### **پوشه `public/`:**
+   - **`images/` Directory:**
+        - شامل تصاویر استاتیک مورد استفاده در اپلیکیشن.
+
+### **پوشه `context/`:**
+   - **`AuthContext.js`:**
+        - مدیریت context مرتبط با احراز هویت، احتمالاً توکن کاربر را دریافت کرده و بعد از ورود موفقیت‌آمیز، از آن در هدرهای درخواست‌ها استفاده می‌کند.
+   - **`MessageContext.js`:**
+        - مدیریت context مرتبط با پیام‌ها یا هشدارها.
+   - **`context.js`:**
+        - احتمالاً یک ابزار یا فایل context اصلی است که انواع مختلف context را ترکیب کرده و به عنوان یک context جهانی به کامپوننت‌های شما ارائه می‌دهد.
+
+
+## **معماری توده‌ای (Full Stack Architecture)**
+
+### **Back-end (Django)**
+
+#### **1\. مدل‌های Django (`models.py`):**
+
+*   **مدل PowerMeter:**
+    *   فیلدها: `user` (کلید خارجی به `CustomUser`), `current`, `voltage`, `datetime`.
+    *   فیلدهای محاسباتی: `power`, `date`, `jdate`, `time`.
+
+#### **2\. سریالایزرهای Django (`serializers.py`):**
+
+*   **UserSerializer:**
+    *   سریالایزر برای مدل `CustomUser`.
+*   **GroupSerializer:**
+    *   سریالایزر برای مدل معمولی Django به نام `Group`.
+*   **PowerMeterSerializer:**
+    *   سریالایزر برای مدل `PowerMeter` با فیلدهای `power`, `datetime`, `current`, و `voltage`.
+*   **PowerMeterExportSerializer:**
+    *   سریالایزر برای صدور داده با فیلدهای `power`, `jdate`, `time`, و `user_uuid`.
+*   **HourlyPowerSerializer:**
+    *   سریالایزر برای مصرف ساعتی با فیلدهای `power` و `hour`.
+*   **DailyStatSerializer:**
+    *   سریالایزر برای آمار روزانه با فیلدهای `date`, `min_power`, `max_power`, و `avg_power`.
+*   **MinMaxPowerSerializer:**
+    *   سریالایزر برای مصرف با فیلدهای `power`, `date`, `min_power`, و `max_power`.
+*   **AvgPowerSerializer:**
+    *   سریالایزر برای میانگین مصرف با فیلدهای `avg_power`, `date`, `datetime`, و `hour`.
+
+#### **3\. فیلترهای Django (`filters.py`):**
+
+*   **PowerMeterDateFilter:**
+    *   فیلتر بر اساس تاریخ برای داده‌های مصرفی در یک روز خاص.
+*   **DailyStatFilter:**
+    *   فیلتر بر اساس تاریخ برای تولید آمار روزانه از داده‌های مصرفی.
+*   **MinMaxPowerDateFilter:**
+    *   فیلتر بر اساس تاریخ برای محاسبه حداقل و حداکثر مصرف در بازه‌های زمانی مختلف.
+*   **AvgPowerDateFilter:**
+    *   فیلتر بر اساس تاریخ برای محاسبه میانگین مصرف در بازه‌های زمانی مختلف.
+
+#### **4\. نماهای Django (`views.py`):**
+
+*   **UserViewSet:**
+    *   عملیات CRUD بر روی کاربران سفارشی. تنها توسط کاربران ادمین قابل دسترس است.
+*   **GroupViewSet:**
+    *   عملیات CRUD بر روی گروه‌های کاربری. تنها توسط کاربران ادمین قابل دسترس است.
+*   **PowerMeterViewSet:**
+    *   عملیات CRUD بر روی داده‌های مصرف برق.
+    *   عملیات سفارشی: `add_data` و `add_data_dev` برای افزودن داده‌های مصرف برق.
+*   **RealTimeViewSet:**
+    *   اطلاعات مصرف برق به صورت زمان واقعی برای کاربر احراز هویت شده فراهم می‌کند.
+*   **DailyStatViewSet:**
+    *   آمار روزانه برای مصرف برق محاسبه و فراهم می‌کند.
+*   **EnergyStatViewSet:**
+    *   آمار مصرف انرژی برای بازه‌های زمانی مختلف محاسبه و ارائه می‌شود.
+*   **PowerMeterCSVExportAPIView:**
+    *   صدور داده‌های مصرف برق به فرمت CSV برای تاریخ مشخص.
+*   **ValidateJWTToken:**
+    *   اعتبارسنجی و تجدید نشان‌های JWT برای کاربران احراز هویت شده.
+
+#### **5\. URLs Django (`urls.py`):**
+
+*   مسیرها:
+    *   `/users/`: عملیات CRUD بر روی کاربران.
+    *   `/groups/`: عملیات CRUD بر روی گروه‌ها.
+    *   `/power/`: عملیات CRUD بر روی داده‌های مصرف برق.
+    *   `/realtime/`: اطلاعات مصرف برق به صورت زمان واقعی.
+    *   `/daily-stat/`: آمار روزانه برای مصرف برق.
+    *   `/energy-stat/`: آمار مصرف انرژی برای بازه‌های زمانی مختلف.
+    *   `/power-export/`: صدور داده‌های مصرف برق به فرمت CSV.
+    *   `/validate-token/`: اعتبارسنجی و تجدید نشان‌های JWT.
+
+### **Front-end (Next.js)**
+
+#### **پوشه‌ها و فایل‌ها:**
+
+*   **`app/page.js`:**
+    *   صفحه اصلی نمایش.
+*   **`app/layout.js`:**
+    *   طراحی لایه اصلی برای صفحات.
+*   **`app/loading.js`:**
+    *   نمایش اطلاعات بارگذاری برنامه.
+*   **`app/dashboard/page.js`:**
+    *   صفحه داشبورد نمایش داده‌های مصرف برق.
+*   **`app/dashboard/layout.js`:**
+    *   طراحی لایه اصلی برای صفحات داشبورد.
+*   **`app/dashboard/login/page.js`:**
+    *   صفحه ورود به سیستم.
+*   **`components/charts/ColPowerChart.jsx`:**
+    *   نمودار مصرف برق در ستون‌ها.
+*   **`components/charts/PowerChart.jsx`:**
+    *   نمودار کلی مصرف برق.
+*   **`components/charts/PiePowerChart.jsx`:**
+    *   نمودار دایره‌ای مصرف برق.
+*   **`components/charts/PredictCost.jsx`:**
+    *   محاسبه و نمایش هزینه مصرف برق.
+*   **`components/utils/Download.jsx`:**
+    *   امکان دانلود فایل‌ها.
+*   **`components/utils/FormatPersianTime.jsx`:**
+    *   فرمت‌بندی زمان به شمسی.
+*   **`components/utils/LoadCharts.jsx`:**
+    *   بارگذاری و نمایش چارت‌ها.
+*   **`components/utils/NumberCounter.jsx`:**
+    *   نمایش اعداد با افزایش تدریجی.
+*   **`components/utils/TranslateToPersian.jsx`:**
+    *   ترجمه متن به زبان فارسی.
+*   **`components/ChartLayout.jsx`:**
+    *   طراحی لایه اصلی برای نمودارها.
+*   **`components/DashboardLayout.jsx`:**
+    *   طراحی لایه اصلی برای صفحات داشبورد.
+*   **`components/Loaders.jsx`:**
+    *   انواع لودرها برای نمایش بارگذاری.
+*   **`components/Message.jsx`:**
+    *   نمایش پیام‌ها.
+*   **`components/Navbar.jsx`:**
+    *   نوار ناوبری برنامه.
+*   **`components/ProtectedPages.jsx`:**
+    *   فراهم کردن لایه حفاظت برای صفحات محدود به کاربران وارد شده.
+*   **`components/SideBarNav.jsx`:**
+    *   ناوبری در کنار صفحات.
+*   **`components/UnProtectedPages.jsx`:**
+    *   لایه حفاظت برای صفحات عمومی.
+
+#### **پوشه‌ها و فایل‌های عمومی (`public/`):**
+
+*   **`images/`:**
+    *   تصاویر مورد استفاده در برنامه.
+
+#### **متغیرها و کانتکست‌ها (`context/`):**
+
+*   **`AuthContext.js`:**
+    *   دریافت توکن کاربر و افزودن آن به هدر درخواست‌ها پس از ورود موفق.
+*   **`MessageContext.js`:**
+    *   مدیریت و نمایش پیام‌ها.
+*   **`context.js`:**
+    *   فایل کانتکست اصلی برای مدیریت استیت‌های مختلف برنامه.
+
+* * *
+
+این ساختار به کاربر امکان می‌دهد تا با دسترسی به API، از داده‌های مصرف برق خود استفاده کند، فیلترها را اعمال و داده‌ها را به فرمت‌های مختلف صدور کند.
